@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>12/A | Ders Çalışma Günlüğü</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            color: #edfff4;
+
+            background:
+
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(58, 190, 115, .16),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 85% 85%,
+                    rgba(25, 125, 72, .18),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #041a10,
+                    #072b1b,
+                    #083b24
+                );
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           ANA ALAN
+        ========================= */
+
+        .container {
+
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            width: min(1100px, 94%);
+
+            margin: auto;
+
+            padding:
+                70px 25px 35px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+        }
+
+
+        /* =========================
+           ÜST YAZI
+        ========================= */
+
+        .welcome {
+
+            color: #70d99b;
+
+            font-size: 14px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 18px;
+
+            opacity: .9;
+
+            text-align: center;
+        }
+
+
+        /* =========================
+           BAŞLIK
+        ========================= */
+
+        h1 {
+
+            text-align: center;
+
+            font-size:
+                clamp(48px, 8vw, 78px);
+
+            line-height: 1.05;
+
+            font-weight: normal;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    #e7fff0,
+                    #71e29e,
+                    #ffffff,
+                    #65d991
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            text-shadow:
+                0 0 35px
+                rgba(75, 215, 130, .20);
+        }
+
+
+        .title-decoration {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin:
+                25px 0 20px;
+
+            width:
+                min(600px, 80%);
+        }
+
+
+        .line {
+
+            height: 1px;
+
+            flex: 1;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #54ca83,
+                    transparent
+                );
+        }
+
+
+        .diamond {
+
+            color: #72dfa0;
+
+            font-size: 18px;
+
+            text-shadow:
+                0 0 15px
+                #3ac878;
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #acd8ba;
+
+            font-size: 16px;
+
+            max-width: 600px;
+
+            line-height: 1.7;
+
+            margin-bottom: 45px;
+        }
+
+
+        /* =========================
+           GÖRÜNTÜLE KUTUSU
+        ========================= */
+
+        .view-card {
+
+            position: relative;
+
+            width: 100%;
+
+            min-height: 180px;
+
+            padding:
+                32px 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 25px;
+
+            text-decoration: none;
+
+            color: white;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(20, 105, 60, .72),
+                    rgba(7, 55, 32, .80)
+                );
+
+            border:
+                1px solid
+                rgba(105, 226, 151, .45);
+
+            border-radius: 27px;
+
+            backdrop-filter: blur(14px);
+
+            -webkit-backdrop-filter:
+                blur(14px);
+
+            overflow: hidden;
+
+            box-shadow:
+
+                0 18px 55px
+                rgba(0,0,0,.28),
+
+                inset 0 0 35px
+                rgba(70, 210, 130, .06);
+
+            transition:
+                transform .35s ease,
+                border-color .35s ease,
+                box-shadow .35s ease;
+
+            margin-bottom: 30px;
+        }
+
+
+        .view-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+
+            height: 250px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(67, 210, 127, .12);
+
+            filter: blur(30px);
+
+            top: -130px;
+
+            right: -50px;
+
+            pointer-events: none;
+        }
+
+
+        .view-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 100%;
+
+            height: 1px;
+
+            left: 0;
+
+            bottom: 0;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #72dfa0,
+                    transparent
+                );
+
+            opacity: .4;
+        }
+
+
+        .view-card:hover {
+
+            transform:
+                translateY(-7px);
+
+            border-color:
+                rgba(115, 232, 159, .85);
+
+            box-shadow:
+
+                0 25px 65px
+                rgba(0,0,0,.38),
+
+                0 0 40px
+                rgba(52, 195, 113, .16);
+        }
+
+
+        .view-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 25px;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+
+        .view-icon {
+
+            width: 82px;
+
+            height: 82px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 40px;
+
+            border-radius: 22px;
+
+            background:
+                rgba(89, 218, 139, .10);
+
+            border:
+                1px solid
+                rgba(100, 220, 147, .23);
+
+            box-shadow:
+
+                inset 0 0 20px
+                rgba(70, 210, 130, .05),
+
+                0 0 25px
+                rgba(50, 190, 110, .08);
+        }
+
+
+        .view-text h2 {
+
+            font-size:
+                clamp(24px, 4vw, 34px);
+
+            font-weight: normal;
+
+            color: #eafff1;
+
+            margin-bottom: 9px;
+        }
+
+
+        .view-text p {
+
+            color: #acd4b9;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        .view-arrow {
+
+            position: relative;
+
+            z-index: 1;
+
+            width: 52px;
+
+            height: 52px;
+
+            flex-shrink: 0;
+
+            border:
+                1px solid
+                rgba(105, 220, 148, .40);
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #b8f1cc;
+
+            font-size: 25px;
+
+            transition: .3s ease;
+        }
+
+
+        .view-card:hover .view-arrow {
+
+            background:
+                rgba(72, 210, 128, .14);
+
+            transform:
+                translateX(7px);
+        }
+
+
+        /* =========================
+           ALT KUTULAR
+        ========================= */
+
+        .cards {
+
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr;
+
+            gap: 25px;
+        }
+
+
+        .card {
+
+            position: relative;
+
+            min-height: 240px;
+
+            padding: 35px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            text-decoration: none;
+
+            color: white;
+
+            background:
+                rgba(7, 55, 32, .65);
+
+            border:
+                1px solid
+                rgba(100, 218, 145, .30);
+
+            border-radius: 24px;
+
+            backdrop-filter: blur(12px);
+
+            -webkit-backdrop-filter:
+                blur(12px);
+
+            overflow: hidden;
+
+            box-shadow:
+
+                0 15px 50px
+                rgba(0,0,0,.25),
+
+                inset 0 0 30px
+                rgba(70, 210, 130, .04);
+
+            transition:
+                transform .35s ease,
+                border-color .35s ease,
+                box-shadow .35s ease;
+        }
+
+
+        .card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+
+            height: 180px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(65, 205, 125, .10);
+
+            filter: blur(25px);
+
+            top: -70px;
+
+            right: -50px;
+        }
+
+
+        .card:hover {
+
+            transform:
+                translateY(-8px);
+
+            border-color:
+                rgba(110, 228, 155, .70);
+
+            box-shadow:
+
+                0 20px 60px
+                rgba(0,0,0,.35),
+
+                0 0 35px
+                rgba(55, 200, 120, .12);
+        }
+
+
+        .card-icon {
+
+            font-size: 43px;
+
+            margin-bottom: 25px;
+
+            filter:
+                drop-shadow(
+                    0 0 12px
+                    rgba(85, 220, 140, .40)
+                );
+        }
+
+
+        .card h2 {
+
+            font-size: 29px;
+
+            font-weight: normal;
+
+            margin-bottom: 12px;
+        }
+
+
+        .card p {
+
+            color: #a9cfb7;
+
+            line-height: 1.6;
+
+            font-size: 15px;
+        }
+
+
+        .card-bottom {
+
+            margin-top: 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .open-text {
+
+            color: #78dfa0;
+
+            font-size: 14px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .arrow {
+
+            width: 38px;
+
+            height: 38px;
+
+            border:
+                1px solid
+                rgba(105, 220, 148, .35);
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #a9eac0;
+
+            font-size: 20px;
+
+            transition: .3s ease;
+        }
+
+
+        .card:hover .arrow {
+
+            background:
+                rgba(70, 210, 130, .13);
+
+            transform:
+                translateX(5px);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+
+            margin-top: 55px;
+
+            color: #587d66;
+
+            font-size: 10px;
+
+            letter-spacing: .5px;
+
+            text-align: center;
+        }
+
+
+        /* =========================
+           MOBİL
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .container {
+
+                padding:
+                    50px 18px 30px;
+            }
+
+
+            .card {
+
+                min-height: 220px;
+
+                padding: 30px;
+            }
+
+
+            .subtitle {
+
+                margin-bottom: 35px;
+            }
+
+
+            h1 {
+
+                font-size: 45px;
+            }
+
+
+            .view-card {
+
+                min-height: 170px;
+
+                padding: 25px;
+
+                align-items: center;
+            }
+
+
+            .view-left {
+
+                gap: 17px;
+            }
+
+
+            .view-icon {
+
+                width: 62px;
+
+                height: 62px;
+
+                font-size: 30px;
+
+                border-radius: 18px;
+            }
+
+
+            .view-text h2 {
+
+                font-size: 22px;
+            }
+
+
+            .view-text p {
+
+                font-size: 12px;
+            }
+
+
+            .view-arrow {
+
+                width: 43px;
+
+                height: 43px;
+
+                font-size: 20px;
+            }
+        }
+
+
+        @media (max-width: 450px) {
+
+            .view-card {
+
+                padding:
+                    22px 18px;
+            }
+
+
+            .view-left {
+
+                gap: 13px;
+            }
+
+
+            .view-icon {
+
+                width: 55px;
+
+                height: 55px;
+
+                font-size: 27px;
+            }
+
+
+            .view-text h2 {
+
+                font-size: 19px;
+            }
+
+
+            .view-text p {
+
+                font-size: 11px;
+            }
+
+
+            .view-arrow {
+
+                width: 38px;
+
+                height: 38px;
+
+                font-size: 18px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<main class="container">
+
+
+    <div class="welcome">
+        ✦ 12/A ✦
+    </div>
+
+
+    <h1>
+        12/A<br>
+        Ders Çalışma Günlüğü
+    </h1>
+
+
+    <div class="title-decoration">
+
+        <span class="line"></span>
+
+        <span class="diamond">
+            ✦
+        </span>
+
+        <span class="line"></span>
+
+    </div>
+
+
+    <p class="subtitle">
+        Soru çözüm kayıtları ve sınıf çalışma takibi.
+    </p>
+
+
+    <!-- =========================
+         GÖRÜNTÜLE
+    ========================= -->
+
+    <a
+        href="goruntule.html"
+        class="view-card"
+    >
+
+        <div class="view-left">
+
+
+            <div class="view-icon">
+                👁️
+            </div>
+
+
+            <div class="view-text">
+
+                <h2>
+                    Öğrencileri Görüntüle
+                </h2>
+
+                <p>
+                    12/A öğrencilerinin soru çözüm kayıtlarını görüntüle.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="view-arrow">
+            →
+        </div>
+
+
+    </a>
+
+
+    <!-- =========================
+         SORU GÜNLÜĞÜ
+    ========================= -->
+
+    <section class="cards">
+
+
+        <a
+            href="soru.html"
+            class="card"
+        >
+
+            <div>
+
+
+                <div class="card-icon">
+                    ✎
+                </div>
+
+
+                <h2>
+                    Soru Günlüğü
+                </h2>
+
+
+                <p>
+                    Her gün çözdüğün soruları kaydet,
+                    ders ve sınav türüne göre takip et.
+                </p>
+
+
+            </div>
+
+
+            <div class="card-bottom">
+
+
+                <span class="open-text">
+                    SORU GÜNLÜĞÜNE GİR →
+                </span>
+
+
+                <span class="arrow">
+                    →
+                </span>
+
+
+            </div>
+
+
+        </a>
+
+
+    </section>
+
+
+    <footer>
+        Bu site Azra Kurt tarafından yapılmıştır.
+    </footer>
+
+
+</main>
+
+
+</body>
+
+</html>

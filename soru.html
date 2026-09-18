@@ -1,0 +1,3003 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>12/A | Soru Günlüğü</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            color: #eafff2;
+
+            background:
+
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(48, 180, 110, .18),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(20, 120, 70, .20),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #041a10,
+                    #06291a,
+                    #083d25
+                );
+
+            padding-bottom: 70px;
+        }
+
+
+        .container {
+
+            width: min(1100px, 94%);
+
+            margin: auto;
+
+            padding-top: 30px;
+        }
+
+
+        .back {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #8de0ad;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 35px;
+
+            transition: .3s;
+        }
+
+
+        .back:hover {
+
+            transform:
+                translateX(-4px);
+
+            color: white;
+        }
+
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 40px;
+        }
+
+
+        .small-title {
+
+            color: #65d997;
+
+            font-size: 13px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 15px;
+        }
+
+
+        h1 {
+
+            font-size:
+                clamp(48px, 8vw, 76px);
+
+            font-weight: normal;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    #eafff2,
+                    #69e49a,
+                    #ffffff
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            text-shadow:
+                0 0 30px
+                rgba(70, 220, 135, .20);
+        }
+
+
+        .header p {
+
+            color: #a8d9bb;
+
+            margin-top: 15px;
+
+            line-height: 1.6;
+        }
+
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .stat {
+
+            padding: 20px 15px;
+
+            text-align: center;
+
+            background:
+                rgba(7, 54, 31, .60);
+
+            border:
+                1px solid
+                rgba(85, 218, 139, .23);
+
+            border-radius: 18px;
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        .stat-number {
+
+            display: block;
+
+            font-size: 27px;
+
+            color: #75e6a1;
+
+            margin-bottom: 6px;
+        }
+
+
+        .stat-label {
+
+            color: #8fbfa3;
+
+            font-size: 12px;
+        }
+
+
+        .panel {
+
+            background:
+                rgba(5, 43, 25, .74);
+
+            border:
+                1px solid
+                rgba(90, 221, 143, .23);
+
+            border-radius: 25px;
+
+            padding: 30px;
+
+            backdrop-filter: blur(12px);
+
+            margin-bottom: 40px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,.20);
+        }
+
+
+        .panel-title {
+
+            font-size: 25px;
+
+            font-weight: normal;
+
+            color: #dfffea;
+
+            margin-bottom: 25px;
+        }
+
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr 1fr;
+
+            gap: 15px;
+        }
+
+
+        label {
+
+            display: block;
+
+            color: #92c9a8;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                rgba(90, 218, 140, .24);
+
+            background:
+                rgba(2, 25, 14, .60);
+
+            color: white;
+
+            outline: none;
+
+            font-family: inherit;
+
+            font-size: 15px;
+
+            transition: .3s;
+        }
+
+
+        textarea {
+
+            min-height: 90px;
+
+            resize: vertical;
+
+            line-height: 1.6;
+        }
+
+
+        select option {
+
+            background: #07351f;
+
+            color: white;
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #59d98b;
+
+            box-shadow:
+                0 0 15px
+                rgba(74, 220, 130, .12);
+        }
+
+
+        .add-button {
+
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 16px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #167b47,
+                    #28b96b
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 17px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 25px
+                rgba(20, 145, 75, .25);
+
+            transition: .3s;
+        }
+
+
+        .add-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(20, 145, 75, .35);
+        }
+
+
+        .secondary-button {
+
+            width: 100%;
+
+            margin-top: 12px;
+
+            padding: 13px;
+
+            border:
+                1px solid
+                rgba(88, 216, 137, .28);
+
+            border-radius: 12px;
+
+            background:
+                rgba(3, 30, 17, .50);
+
+            color: #8de0ad;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            transition: .3s;
+        }
+
+
+        .secondary-button:hover {
+
+            background:
+                rgba(25, 105, 61, .35);
+
+            color: white;
+        }
+
+
+        .auth-switch {
+
+            margin-top: 18px;
+
+            color: #86b99a;
+
+            font-size: 13px;
+        }
+
+
+        .auth-switch button {
+
+            border: none;
+
+            background: transparent;
+
+            color: #65dc96;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            text-decoration: underline;
+        }
+
+
+        .goal-box {
+
+            margin-top: 22px;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(3, 30, 17, .50);
+
+            border:
+                1px solid
+                rgba(88, 210, 135, .18);
+        }
+
+
+        .goal-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 10px;
+
+            color: #a4ceb2;
+
+            font-size: 13px;
+        }
+
+
+        .goal-percent {
+
+            color: #75e6a1;
+        }
+
+
+        .progress {
+
+            height: 8px;
+
+            background:
+                rgba(0,0,0,.25);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-bar {
+
+            height: 100%;
+
+            width: 0%;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    #1c9655,
+                    #73e8a2
+                );
+
+            border-radius: 20px;
+
+            transition:
+                width .5s ease;
+        }
+
+
+        .section-title {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .section-title h2 {
+
+            font-size: 27px;
+
+            font-weight: normal;
+        }
+
+
+        .record-count {
+
+            color: #70dc9b;
+
+            font-size: 14px;
+        }
+
+
+        .day-card {
+
+            background:
+                rgba(7, 55, 32, .66);
+
+            border:
+                1px solid
+                rgba(88, 215, 138, .20);
+
+            border-radius: 20px;
+
+            margin-bottom: 18px;
+
+            overflow: hidden;
+
+            transition: .3s;
+        }
+
+
+        .day-card:hover {
+
+            border-color:
+                rgba(95, 225, 146, .42);
+        }
+
+
+        .day-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 22px 25px;
+
+            cursor: pointer;
+        }
+
+
+        .day-date {
+
+            font-size: 21px;
+
+            color: #e0ffea;
+        }
+
+
+        .day-total {
+
+            text-align: right;
+        }
+
+
+        .day-total-number {
+
+            display: block;
+
+            font-size: 27px;
+
+            color: #72e4a0;
+        }
+
+
+        .day-total-label {
+
+            color: #78a98a;
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .day-content {
+
+            border-top:
+                1px solid
+                rgba(95, 216, 139, .13);
+
+            padding:
+                20px 25px 25px;
+        }
+
+
+        .subject-row {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 14px 0;
+
+            border-bottom:
+                1px solid
+                rgba(92, 199, 132, .08);
+        }
+
+
+        .subject-row:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .subject-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .exam-badge {
+
+            font-size: 10px;
+
+            padding: 5px 8px;
+
+            border-radius: 7px;
+
+            background:
+                rgba(64, 190, 111, .15);
+
+            color: #78e2a1;
+
+            border:
+                1px solid
+                rgba(80, 210, 130, .20);
+        }
+
+
+        .subject-name {
+
+            color: #c9ecd5;
+
+            font-size: 16px;
+        }
+
+
+        .question-count {
+
+            color: #75e3a0;
+
+            font-size: 17px;
+        }
+
+
+        .delete-entry {
+
+            border: none;
+
+            background: transparent;
+
+            color: #70957e;
+
+            cursor: pointer;
+
+            margin-left: 10px;
+
+            font-size: 14px;
+
+            transition: .3s;
+        }
+
+
+        .delete-entry:hover {
+
+            color: #ef9eae;
+        }
+
+
+        .note-box {
+
+            margin: 0 0 18px;
+
+            padding: 16px 18px;
+
+            background:
+                rgba(3, 29, 16, .48);
+
+            border:
+                1px solid
+                rgba(89, 211, 136, .18);
+
+            border-radius: 14px;
+        }
+
+
+        .note-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 9px;
+        }
+
+
+        .note-title {
+
+            color: #73dfa0;
+
+            font-size: 11px;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .note-text {
+
+            color: #c5e7d0;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            white-space: pre-wrap;
+
+            word-break: break-word;
+        }
+
+
+        .note-delete {
+
+            border: none;
+
+            background: transparent;
+
+            color: #70957e;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            transition: .3s;
+        }
+
+
+        .note-delete:hover {
+
+            color: #ef9eae;
+        }
+
+
+        .no-questions {
+
+            color: #709d80;
+
+            font-size: 13px;
+
+            text-align: center;
+
+            padding: 12px;
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            padding: 60px 20px;
+
+            color: #709d80;
+
+            background:
+                rgba(5, 42, 24, .45);
+
+            border:
+                1px dashed
+                rgba(88, 208, 135, .20);
+
+            border-radius: 20px;
+        }
+
+
+        .empty-icon {
+
+            font-size: 40px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .empty p {
+
+            line-height: 1.7;
+        }
+
+
+        .subject-stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+
+            margin-top: 20px;
+        }
+
+
+        .subject-stat {
+
+            padding: 15px;
+
+            background:
+                rgba(3, 29, 16, .45);
+
+            border-radius: 13px;
+
+            text-align: center;
+        }
+
+
+        .subject-stat-name {
+
+            color: #82aa91;
+
+            font-size: 11px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .subject-stat-number {
+
+            color: #c2efd0;
+
+            font-size: 19px;
+        }
+
+
+        .login-box {
+
+            max-width: 500px;
+
+            margin: 60px auto;
+
+            text-align: center;
+        }
+
+
+        .login-box input {
+
+            margin-bottom: 12px;
+        }
+
+
+        .logout-button {
+
+            margin-top: 15px;
+
+            padding: 10px 18px;
+
+            border:
+                1px solid
+                rgba(90, 210, 137, .25);
+
+            border-radius: 10px;
+
+            background:
+                rgba(2, 25, 14, .4);
+
+            color: #8de0ad;
+
+            cursor: pointer;
+        }
+
+
+        .user-info {
+
+            text-align: center;
+
+            color: #91bfa1;
+
+            font-size: 13px;
+
+            margin-bottom: 25px;
+        }
+
+
+        @media (max-width: 750px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .form-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .subject-stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .day-header {
+
+                padding: 18px;
+            }
+
+
+            .day-content {
+
+                padding:
+                    15px 18px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <a
+        href="index.html"
+        class="back"
+    >
+        ← Ana Sayfaya Dön
+    </a>
+
+
+    <header class="header">
+
+        <div class="small-title">
+            ✦ 12/A ✦
+        </div>
+
+        <h1>
+            Soru Günlüğü
+        </h1>
+
+        <p>
+            Her çözdüğün soru burada birikir.
+            <br>
+            .
+        </p>
+
+    </header>
+
+
+    <!-- =====================================
+         GİRİŞ / KAYIT
+    ====================================== -->
+
+    <section
+        class="panel login-box"
+        id="loginPanel"
+    >
+
+        <!-- GİRİŞ -->
+
+        <div id="loginForm">
+
+            <h2 class="panel-title">
+                🔐 12/A Öğrenci Girişi
+            </h2>
+
+            <p
+                style="
+                    color:#91bfa1;
+                    margin-bottom:20px;
+                    line-height:1.6;
+                "
+            >
+                Soru günlüğüne devam etmek için
+                hesabına giriş yap.
+            </p>
+
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="E-posta"
+            >
+
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Şifre"
+            >
+
+
+            <button
+                class="add-button"
+                onclick="login()"
+            >
+                ✦ Giriş Yap
+            </button>
+
+
+            <p
+                id="loginMessage"
+                style="
+                    margin-top:15px;
+                    color:#efb1bd;
+                "
+            ></p>
+
+
+            <div class="auth-switch">
+
+                Hesabın yok mu?
+
+                <button
+                    onclick="showRegister()"
+                >
+                    Kayıt Ol
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- KAYIT -->
+
+        <div
+            id="registerForm"
+            style="display:none;"
+        >
+
+            <h2 class="panel-title">
+                🌿 12/A'ya Katıl
+            </h2>
+
+            <p
+                style="
+                    color:#91bfa1;
+                    margin-bottom:20px;
+                    line-height:1.6;
+                "
+            >
+                Adını, e-postanı ve şifreni girerek
+                öğrenci hesabını oluştur.
+            </p>
+
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Ad Soyad"
+            >
+
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="E-posta"
+            >
+
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Şifre"
+            >
+
+
+            <button
+                class="add-button"
+                onclick="register()"
+            >
+                ✦ Kayıt Ol
+            </button>
+
+
+            <p
+                id="registerMessage"
+                style="
+                    margin-top:15px;
+                    color:#efb1bd;
+                "
+            ></p>
+
+
+            <div class="auth-switch">
+
+                Zaten hesabın var mı?
+
+                <button
+                    onclick="showLogin()"
+                >
+                    Giriş Yap
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         ASIL İÇERİK
+    ====================================== -->
+
+    <div
+        id="appContent"
+        style="display:none;"
+    >
+
+
+        <div class="user-info">
+
+            🌿 12/A çalışma alanındasın.
+
+            <button
+                class="logout-button"
+                onclick="logout()"
+            >
+                Çıkış Yap
+            </button>
+
+        </div>
+
+
+        <!-- İSTATİSTİKLER -->
+
+        <section class="stats">
+
+
+            <div class="stat">
+
+                <span
+                    class="stat-number"
+                    id="totalQuestions"
+                >
+                    0
+                </span>
+
+                <span class="stat-label">
+                    Toplam Soru
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span
+                    class="stat-number"
+                    id="tytQuestions"
+                >
+                    0
+                </span>
+
+                <span class="stat-label">
+                    TYT Soru
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span
+                    class="stat-number"
+                    id="aytQuestions"
+                >
+                    0
+                </span>
+
+                <span class="stat-label">
+                    AYT Soru
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span
+                    class="stat-number"
+                    id="bestDay"
+                >
+                    —
+                </span>
+
+                <span class="stat-label">
+                    En Çok Soru Çözülen Gün
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- SORU EKLEME -->
+
+        <section class="panel">
+
+
+            <h2 class="panel-title">
+                ✦ Soru Ekle
+            </h2>
+
+
+            <div class="form-grid">
+
+
+                <div>
+
+                    <label>
+                        Tarih
+                    </label>
+
+                    <input
+                        type="date"
+                        id="questionDate"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Sınav Türü
+                    </label>
+
+                    <select id="examType">
+
+                        <option value="TYT">
+                            TYT
+                        </option>
+
+                        <option value="AYT">
+                            AYT
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Ders
+                    </label>
+
+                    <select id="subject">
+
+                        <option value="Matematik">
+                            Matematik
+                        </option>
+
+                        <option value="Türkçe">
+                            Türkçe
+                        </option>
+
+                        <option value="Fizik">
+                            Fizik
+                        </option>
+
+                        <option value="Kimya">
+                            Kimya
+                        </option>
+
+                        <option value="Biyoloji">
+                            Biyoloji
+                        </option>
+
+                        <option value="Tarih">
+                            Tarih
+                        </option>
+
+                        <option value="Coğrafya">
+                            Coğrafya
+                        </option>
+
+                        <option value="Felsefe">
+                            Felsefe
+                        </option>
+
+                        <option value="Din Kültürü">
+                            Din Kültürü
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <div style="margin-top:15px;">
+
+                <label>
+                    Kaç soru çözdün?
+                </label>
+
+                <input
+                    type="number"
+                    id="questionCount"
+                    min="1"
+                    placeholder="Örn. 40"
+                >
+
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addQuestions()"
+            >
+                ✦ Soruları Günlüğe Ekle
+            </button>
+
+
+            <!-- GÜNLÜK NOT -->
+
+            <div style="margin-top:28px;">
+
+                <label>
+                    📝 Günlük Not
+                </label>
+
+
+                <textarea
+                    id="dailyNote"
+                    placeholder="Bugün nasıl geçti? Ne çalıştın? Kısa bir not bırak..."
+                ></textarea>
+
+
+                <button
+                    class="add-button"
+                    onclick="saveDailyNote()"
+                >
+                    ✦ Notu Günlüğe Kaydet
+                </button>
+
+            </div>
+
+
+            <!-- GÜNLÜK HEDEF -->
+
+            <div class="goal-box">
+
+
+                <div class="goal-row">
+
+                    <span>
+                        Günlük hedef:
+                    </span>
+
+                    <span
+                        class="goal-percent"
+                        id="goalText"
+                    >
+                        0 / 500
+                    </span>
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        id="progressBar"
+                    ></div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- GÜNLÜK ÇALIŞMALAR -->
+
+        <section>
+
+
+            <div class="section-title">
+
+                <h2>
+                    Günlük Çalışmalar
+                </h2>
+
+                <span
+                    class="record-count"
+                    id="dayCount"
+                >
+                    0 gün
+                </span>
+
+            </div>
+
+
+            <div id="daysContainer"></div>
+
+
+        </section>
+
+
+        <!-- DERS TOPLAMLARI -->
+
+        <section
+            class="panel"
+            style="margin-top:40px;"
+        >
+
+            <h2 class="panel-title">
+                📚 Ders Bazında Toplamlar
+            </h2>
+
+
+            <div
+                class="subject-stats"
+                id="subjectStats"
+            ></div>
+
+
+        </section>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+    /* =====================================
+       SUPABASE
+    ===================================== */
+
+
+    const SUPABASE_URL =
+        "https://uisyeukqtsbpdfracydn.supabase.co";
+
+
+    const SUPABASE_KEY =
+        "sb_publishable_t8PW6J6Tdf5f5ueIKC1kng_qq3Hc-77";
+
+
+    const supabaseClient =
+        supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    /* =====================================
+       AYARLAR
+    ===================================== */
+
+
+    const DAILY_GOAL = 500;
+
+
+    let questionEntries = [];
+
+
+    let dailyNotes = [];
+
+
+    /* =====================================
+       BUGÜN
+    ===================================== */
+
+
+    document.getElementById(
+        "questionDate"
+    ).value =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    /* =====================================
+       GİRİŞ / KAYIT EKRANLARI
+    ===================================== */
+
+
+    function showRegister() {
+
+        document.getElementById(
+            "loginForm"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "registerForm"
+        ).style.display = "block";
+
+    }
+
+
+    function showLogin() {
+
+        document.getElementById(
+            "registerForm"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "loginForm"
+        ).style.display = "block";
+
+    }
+
+
+    /* =====================================
+       KAYIT OL
+    ===================================== */
+
+
+    async function register() {
+
+        const name =
+            document.getElementById(
+                "registerName"
+            ).value.trim();
+
+
+        const email =
+            document.getElementById(
+                "registerEmail"
+            ).value.trim();
+
+
+        const password =
+            document.getElementById(
+                "registerPassword"
+            ).value;
+
+
+        const message =
+            document.getElementById(
+                "registerMessage"
+            );
+
+
+        message.textContent = "";
+
+
+        if (!name) {
+
+            message.textContent =
+                "Lütfen ad soyadını gir.";
+
+            return;
+
+        }
+
+
+        if (!email) {
+
+            message.textContent =
+                "Lütfen e-posta adresini gir.";
+
+            return;
+
+        }
+
+
+        if (!password) {
+
+            message.textContent =
+                "Lütfen bir şifre oluştur.";
+
+            return;
+
+        }
+
+
+        if (password.length < 6) {
+
+            message.textContent =
+                "Şifre en az 6 karakter olmalı.";
+
+            return;
+
+        }
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .signUp({
+
+                    email: email,
+
+                    password: password,
+
+                    options: {
+
+                        data: {
+
+                            full_name: name
+
+                        }
+
+                    }
+
+                });
+
+
+        if (error) {
+
+            message.textContent =
+                "Kayıt başarısız: " +
+                error.message;
+
+            console.error(error);
+
+            return;
+
+        }
+
+
+        /*
+            Email confirmation kapalı olduğu için
+            normalde session oluşur ve kullanıcı
+            direkt giriş yapmış olur.
+        */
+
+
+        if (data.session) {
+
+            message.style.color =
+                "#75e3a0";
+
+            message.textContent =
+                "Kayıt başarılı! Hoş geldin " +
+                name +
+                ".";
+
+
+            showApp(data.user);
+
+            await loadQuestions();
+
+        } else {
+
+            message.style.color =
+                "#75e3a0";
+
+            message.textContent =
+                "Kayıt başarılı. Şimdi giriş yapabilirsin.";
+
+            showLogin();
+
+        }
+
+    }
+
+
+    /* =====================================
+       GİRİŞ
+    ===================================== */
+
+
+    async function login() {
+
+        const email =
+            document.getElementById(
+                "loginEmail"
+            ).value.trim();
+
+
+        const password =
+            document.getElementById(
+                "loginPassword"
+            ).value;
+
+
+        const message =
+            document.getElementById(
+                "loginMessage"
+            );
+
+
+        message.textContent = "";
+
+
+        if (!email || !password) {
+
+            message.textContent =
+                "E-posta ve şifreyi gir.";
+
+            return;
+
+        }
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .signInWithPassword({
+
+                    email: email,
+
+                    password: password
+
+                });
+
+
+        if (error) {
+
+            message.textContent =
+                "Giriş başarısız: " +
+                error.message;
+
+            return;
+
+        }
+
+
+        showApp(data.user);
+
+        await loadQuestions();
+
+    }
+
+
+    /* =====================================
+       ÇIKIŞ
+    ===================================== */
+
+
+    async function logout() {
+
+        await supabaseClient.auth.signOut();
+
+
+        document.getElementById(
+            "appContent"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "loginPanel"
+        ).style.display = "block";
+
+
+        showLogin();
+
+    }
+
+
+    /* =====================================
+       UYGULAMAYI GÖSTER
+    ===================================== */
+
+
+    function showApp(user) {
+
+        document.getElementById(
+            "loginPanel"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "appContent"
+        ).style.display = "block";
+
+    }
+
+
+    /* =====================================
+       SORULAR + NOTLARI ÇEK
+    ===================================== */
+
+
+    async function loadQuestions() {
+
+
+        const {
+            data: questionData,
+            error: questionError
+        } =
+            await supabaseClient
+                .from("question_entries")
+                .select("*")
+                .order(
+                    "date",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (questionError) {
+
+            alert(
+                "Kayıtlar alınamadı: " +
+                questionError.message
+            );
+
+            console.error(questionError);
+
+            return;
+
+        }
+
+
+        questionEntries =
+            questionData.map(
+                entry => ({
+
+                    id: entry.id,
+
+                    date: entry.date,
+
+                    type: entry.exam_type,
+
+                    subject: entry.subject,
+
+                    count: entry.question_count
+
+                })
+            );
+
+
+        const {
+            data: noteData,
+            error: noteError
+        } =
+            await supabaseClient
+                .from("daily_notes")
+                .select("*")
+                .order(
+                    "date",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (noteError) {
+
+            alert(
+                "Notlar alınamadı: " +
+                noteError.message
+            );
+
+            console.error(noteError);
+
+            return;
+
+        }
+
+
+        dailyNotes =
+            noteData.map(
+                note => ({
+
+                    id: note.id,
+
+                    date: note.date,
+
+                    note: note.note
+
+                })
+            );
+
+
+        renderAll();
+
+    }
+
+
+    /* =====================================
+       SORU EKLE
+    ===================================== */
+
+
+    async function addQuestions() {
+
+        const date =
+            document.getElementById(
+                "questionDate"
+            ).value;
+
+
+        const type =
+            document.getElementById(
+                "examType"
+            ).value;
+
+
+        const subject =
+            document.getElementById(
+                "subject"
+            ).value;
+
+
+        const count =
+            Number(
+                document.getElementById(
+                    "questionCount"
+                ).value
+            );
+
+
+        if (!date) {
+
+            alert(
+                "Lütfen tarihi seç."
+            );
+
+            return;
+
+        }
+
+
+        if (!count || count <= 0) {
+
+            alert(
+                "Lütfen çözdüğün soru sayısını gir."
+            );
+
+            return;
+
+        }
+
+
+        const {
+            data: {
+                user
+            }
+        } =
+            await supabaseClient.auth
+                .getUser();
+
+
+        if (!user) {
+
+            alert(
+                "Önce giriş yapmalısın."
+            );
+
+            return;
+
+        }
+
+
+        const existing =
+            questionEntries.find(
+                entry =>
+                    entry.date === date &&
+                    entry.type === type &&
+                    entry.subject === subject
+            );
+
+
+        if (existing) {
+
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from(
+                        "question_entries"
+                    )
+                    .update({
+
+                        question_count:
+                            existing.count +
+                            count
+
+                    })
+                    .eq(
+                        "id",
+                        existing.id
+                    );
+
+
+            if (error) {
+
+                alert(
+                    "Kayıt güncellenemedi: " +
+                    error.message
+                );
+
+                return;
+
+            }
+
+
+        } else {
+
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from(
+                        "question_entries"
+                    )
+                    .insert({
+
+                        user_id: user.id,
+
+                        date: date,
+
+                        exam_type: type,
+
+                        subject: subject,
+
+                        question_count: count
+
+                    });
+
+
+            if (error) {
+
+                alert(
+                    "Kayıt eklenemedi: " +
+                    error.message
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        document.getElementById(
+            "questionCount"
+        ).value = "";
+
+
+        await loadQuestions();
+
+    }
+
+
+    /* =====================================
+       GÜNLÜK NOT
+    ===================================== */
+
+
+    async function saveDailyNote() {
+
+        const date =
+            document.getElementById(
+                "questionDate"
+            ).value;
+
+
+        const note =
+            document.getElementById(
+                "dailyNote"
+            ).value.trim();
+
+
+        if (!date) {
+
+            alert(
+                "Lütfen tarihi seç."
+            );
+
+            return;
+
+        }
+
+
+        if (!note) {
+
+            alert(
+                "Lütfen bir not yaz."
+            );
+
+            return;
+
+        }
+
+
+        const {
+            data: {
+                user
+            }
+        } =
+            await supabaseClient.auth
+                .getUser();
+
+
+        if (!user) {
+
+            alert(
+                "Önce giriş yapmalısın."
+            );
+
+            return;
+
+        }
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("daily_notes")
+                .upsert(
+
+                    {
+
+                        user_id: user.id,
+
+                        date: date,
+
+                        note: note,
+
+                        updated_at:
+                            new Date()
+                                .toISOString()
+
+                    },
+
+                    {
+
+                        onConflict:
+                            "user_id,date"
+
+                    }
+
+                );
+
+
+        if (error) {
+
+            alert(
+                "Not kaydedilemedi: " +
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "dailyNote"
+        ).value = "";
+
+
+        await loadQuestions();
+
+    }
+
+
+    /* =====================================
+       SORU SİL
+    ===================================== */
+
+
+    async function deleteEntry(id) {
+
+        const entry =
+            questionEntries.find(
+                item =>
+                    item.id === id
+            );
+
+
+        if (!entry)
+            return;
+
+
+        const confirmation =
+            confirm(
+
+                entry.date +
+                " tarihindeki " +
+                entry.type +
+                " " +
+                entry.subject +
+                " kaydını silmek istiyor musun?"
+
+            );
+
+
+        if (!confirmation)
+            return;
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "question_entries"
+                )
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if (error) {
+
+            alert(
+                "Kayıt silinemedi: " +
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        await loadQuestions();
+
+    }
+
+
+    /* =====================================
+       NOT SİL
+    ===================================== */
+
+
+    async function deleteDailyNote(id) {
+
+        const confirmation =
+            confirm(
+                "Bu günlük notunu silmek istiyor musun?"
+            );
+
+
+        if (!confirmation)
+            return;
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("daily_notes")
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if (error) {
+
+            alert(
+                "Not silinemedi: " +
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        await loadQuestions();
+
+    }
+
+
+    /* =====================================
+       HTML GÜVENLİĞİ
+    ===================================== */
+
+
+    function escapeHTML(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent = text;
+
+        return div.innerHTML;
+
+    }
+
+
+    /* =====================================
+       GÜNLER
+    ===================================== */
+
+
+    function renderDays() {
+
+        const container =
+            document.getElementById(
+                "daysContainer"
+            );
+
+
+        container.innerHTML = "";
+
+
+        const dates =
+            [
+
+                ...new Set([
+
+                    ...questionEntries.map(
+                        entry =>
+                            entry.date
+                    ),
+
+                    ...dailyNotes.map(
+                        note =>
+                            note.date
+                    )
+
+                ])
+
+            ]
+            .sort(
+                (a, b) =>
+                    new Date(b) -
+                    new Date(a)
+            );
+
+
+        if (dates.length === 0) {
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📚
+                    </div>
+
+                    <p>
+                        Henüz soru veya günlük notu yok.
+                        <br>
+                        İlk kaydını yukarıdan ekle!
+                    </p>
+
+                </div>
+
+            `;
+
+
+            document.getElementById(
+                "dayCount"
+            ).textContent =
+                "0 gün";
+
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "dayCount"
+        ).textContent =
+            dates.length +
+            " gün";
+
+
+        dates.forEach(
+            date => {
+
+
+                const entries =
+                    questionEntries.filter(
+                        entry =>
+                            entry.date === date
+                    );
+
+
+                const total =
+                    entries.reduce(
+                        (
+                            sum,
+                            entry
+                        ) =>
+                            sum +
+                            entry.count,
+                        0
+                    );
+
+
+                const dayNote =
+                    dailyNotes.find(
+                        note =>
+                            note.date === date
+                    );
+
+
+                const formattedDate =
+                    new Date(
+                        date +
+                        "T00:00:00"
+                    ).toLocaleDateString(
+                        "tr-TR",
+                        {
+
+                            weekday:
+                                "long",
+
+                            day:
+                                "numeric",
+
+                            month:
+                                "long",
+
+                            year:
+                                "numeric"
+
+                        }
+                    );
+
+
+                let noteHTML = "";
+
+
+                if (dayNote) {
+
+                    noteHTML = `
+
+                        <div class="note-box">
+
+                            <div class="note-header">
+
+                                <span class="note-title">
+                                    📝 GÜNLÜK NOT
+                                </span>
+
+                                <button
+                                    class="note-delete"
+                                    onclick="deleteDailyNote(${dayNote.id})"
+                                    title="Notu sil"
+                                >
+                                    🗑
+                                </button>
+
+                            </div>
+
+                            <div class="note-text">
+                                ${escapeHTML(dayNote.note)}
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                let subjectHTML = "";
+
+
+                entries.forEach(
+                    entry => {
+
+                        subjectHTML += `
+
+                            <div class="subject-row">
+
+                                <div class="subject-left">
+
+                                    <span class="exam-badge">
+                                        ${entry.type}
+                                    </span>
+
+                                    <span class="subject-name">
+                                        ${entry.subject}
+                                    </span>
+
+                                </div>
+
+                                <div>
+
+                                    <span class="question-count">
+                                        ${entry.count} soru
+                                    </span>
+
+                                    <button
+                                        class="delete-entry"
+                                        onclick="deleteEntry(${entry.id})"
+                                        title="Bu kaydı sil"
+                                    >
+                                        🗑
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+
+                if (entries.length === 0) {
+
+                    subjectHTML = `
+
+                        <div class="no-questions">
+                            Bu gün soru kaydı yok.
+                        </div>
+
+                    `;
+
+                }
+
+
+                container.innerHTML += `
+
+                    <article class="day-card">
+
+                        <div
+                            class="day-header"
+                            onclick="toggleDay(this)"
+                        >
+
+                            <div class="day-date">
+                                ${formattedDate}
+                            </div>
+
+                            <div class="day-total">
+
+                                <span class="day-total-number">
+                                    ${total}
+                                </span>
+
+                                <span class="day-total-label">
+                                    SORU
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="day-content">
+
+                            ${noteHTML}
+
+                            ${subjectHTML}
+
+                        </div>
+
+                    </article>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       GÜN AÇ / KAPAT
+    ===================================== */
+
+
+    function toggleDay(header) {
+
+        const content =
+            header.nextElementSibling;
+
+
+        if (
+            content.style.display ===
+            "none"
+        ) {
+
+            content.style.display =
+                "block";
+
+        } else {
+
+            content.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    /* =====================================
+       GENEL İSTATİSTİKLER
+    ===================================== */
+
+
+    function updateStats() {
+
+
+        const total =
+            questionEntries.reduce(
+                (
+                    sum,
+                    entry
+                ) =>
+                    sum +
+                    entry.count,
+                0
+            );
+
+
+        const tyt =
+            questionEntries
+                .filter(
+                    entry =>
+                        entry.type === "TYT"
+                )
+                .reduce(
+                    (
+                        sum,
+                        entry
+                    ) =>
+                        sum +
+                        entry.count,
+                    0
+                );
+
+
+        const ayt =
+            questionEntries
+                .filter(
+                    entry =>
+                        entry.type === "AYT"
+                )
+                .reduce(
+                    (
+                        sum,
+                        entry
+                    ) =>
+                        sum +
+                        entry.count,
+                    0
+                );
+
+
+        document.getElementById(
+            "totalQuestions"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "tytQuestions"
+        ).textContent =
+            tyt;
+
+
+        document.getElementById(
+            "aytQuestions"
+        ).textContent =
+            ayt;
+
+
+        const dailyTotals = {};
+
+
+        questionEntries.forEach(
+            entry => {
+
+                if (
+                    !dailyTotals[
+                        entry.date
+                    ]
+                ) {
+
+                    dailyTotals[
+                        entry.date
+                    ] = 0;
+
+                }
+
+
+                dailyTotals[
+                    entry.date
+                ] += entry.count;
+
+            }
+        );
+
+
+        const dailyValues =
+            Object.entries(
+                dailyTotals
+            );
+
+
+        if (
+            dailyValues.length === 0
+        ) {
+
+            document.getElementById(
+                "bestDay"
+            ).textContent =
+                "—";
+
+            return;
+
+        }
+
+
+        const best =
+            dailyValues.reduce(
+                (
+                    best,
+                    current
+                ) =>
+                    current[1] >
+                    best[1]
+                        ? current
+                        : best
+            );
+
+
+        document.getElementById(
+            "bestDay"
+        ).textContent =
+            best[1];
+
+    }
+
+
+    /* =====================================
+       DERS İSTATİSTİKLERİ
+    ===================================== */
+
+
+    function renderSubjectStats() {
+
+
+        const container =
+            document.getElementById(
+                "subjectStats"
+            );
+
+
+        const subjects = [
+
+            "Matematik",
+
+            "Türkçe",
+
+            "Fizik",
+
+            "Kimya",
+
+            "Biyoloji",
+
+            "Tarih",
+
+            "Coğrafya",
+
+            "Felsefe",
+
+            "Din Kültürü"
+
+        ];
+
+
+        container.innerHTML = "";
+
+
+        subjects.forEach(
+            subject => {
+
+
+                const total =
+                    questionEntries
+                        .filter(
+                            entry =>
+                                entry.subject ===
+                                subject
+                        )
+                        .reduce(
+                            (
+                                sum,
+                                entry
+                            ) =>
+                                sum +
+                                entry.count,
+                            0
+                        );
+
+
+                container.innerHTML += `
+
+                    <div class="subject-stat">
+
+                        <div class="subject-stat-name">
+                            ${subject}
+                        </div>
+
+                        <div class="subject-stat-number">
+                            ${total}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       GÜNLÜK HEDEF
+    ===================================== */
+
+
+    function updateGoal() {
+
+
+        const today =
+            new Date()
+                .toISOString()
+                .split("T")[0];
+
+
+        const todayTotal =
+            questionEntries
+                .filter(
+                    entry =>
+                        entry.date === today
+                )
+                .reduce(
+                    (
+                        sum,
+                        entry
+                    ) =>
+                        sum +
+                        entry.count,
+                    0
+                );
+
+
+        const percent =
+            Math.min(
+                100,
+
+                Math.round(
+                    (
+                        todayTotal /
+                        DAILY_GOAL
+                    ) *
+                    100
+                )
+            );
+
+
+        document.getElementById(
+            "goalText"
+        ).textContent =
+            todayTotal +
+            " / " +
+            DAILY_GOAL;
+
+
+        document.getElementById(
+            "progressBar"
+        ).style.width =
+            percent +
+            "%";
+
+    }
+
+
+    /* =====================================
+       HER ŞEYİ YENİLE
+    ===================================== */
+
+
+    function renderAll() {
+
+        renderDays();
+
+        updateStats();
+
+        renderSubjectStats();
+
+        updateGoal();
+
+    }
+
+
+    /* =====================================
+       OTURUM KONTROL
+    ===================================== */
+
+
+    async function checkSession() {
+
+
+        const {
+            data: {
+                session
+            }
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+
+        if (session) {
+
+            showApp(
+                session.user
+            );
+
+            await loadQuestions();
+
+        }
+
+    }
+
+
+    checkSession();
+
+
+</script>
+
+
+</body>
+</html>
