@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>12/A - Öğrenci Takibi</title>
+    <title>12/A · Öğrenci Takibi</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -16,69 +16,78 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background:
-                radial-gradient(circle at top, #123d29 0%, #061a12 55%, #030d09 100%);
+                radial-gradient(
+                    circle at top left,
+                    rgba(35, 140, 88, 0.12),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #04130c,
+                    #061a12 45%,
+                    #08281b
+                );
             color: #eafff2;
             min-height: 100vh;
         }
 
         .container {
-            width: min(1100px, 92%);
-            margin: auto;
-            padding: 40px 0;
+            width: min(1100px, 94%);
+            margin: 0 auto;
+            padding: 35px 0 60px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        header h1 {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            color: #8ec9a9;
+            margin-top: 8px;
+            font-size: 14px;
         }
 
         /* =========================
            LOGIN
         ========================= */
 
-        .login-box,
-        .dashboard {
-            background: rgba(8, 40, 27, 0.94);
-            border: 1px solid rgba(85, 201, 138, 0.25);
-            border-radius: 22px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-        }
-
         .login-box {
-            max-width: 430px;
+            width: min(420px, 100%);
             margin: 70px auto;
-            padding: 35px;
+            background: rgba(8, 40, 27, 0.92);
+            border: 1px solid rgba(85, 201, 138, 0.18);
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.25);
         }
 
-        .logo {
+        .login-box h2 {
             text-align: center;
-            color: #55c98a;
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 12px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 30px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #a9cdb8;
-            margin-bottom: 28px;
-            font-size: 14px;
+            margin-bottom: 22px;
         }
 
         input {
             width: 100%;
-            padding: 14px;
-            margin-bottom: 14px;
-            border-radius: 12px;
-            border: 1px solid #24583e;
+            padding: 13px 14px;
+            border-radius: 11px;
+            border: 1px solid #1c5b3d;
             background: #061a12;
             color: white;
             outline: none;
-            font-size: 15px;
+            margin-bottom: 12px;
         }
 
         input:focus {
@@ -86,260 +95,377 @@
         }
 
         button {
-            width: 100%;
-            padding: 14px;
             border: none;
-            border-radius: 12px;
+            cursor: pointer;
+            border-radius: 11px;
+            font-weight: 700;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 13px;
             background: #1c8c5a;
             color: white;
             font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
         }
 
-        button:hover {
-            background: #25a86d;
-            transform: translateY(-1px);
+        .login-btn:hover {
+            background: #249e68;
         }
 
         .error {
-            color: #ff8585;
+            color: #ff9c9c;
             text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
+            font-size: 13px;
+            margin-top: 12px;
         }
 
         /* =========================
            DASHBOARD
         ========================= */
 
-        .dashboard {
-            padding: 30px;
+        #dashboard {
+            display: none;
         }
 
-        .topbar {
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        .topbar h1 {
-            text-align: left;
-            margin: 0;
+        .teacher-title {
+            color: #bcefd1;
+            font-size: 15px;
         }
 
-        .logout {
-            width: auto;
-            padding: 10px 18px;
-            background: #143f2b;
+        .logout-btn {
+            background: #102e20;
+            color: #a8e2c0;
+            border: 1px solid #1d5439;
+            padding: 9px 15px;
+        }
+
+        .logout-btn:hover {
+            background: #163c29;
         }
 
         /* =========================
-           ÖĞRENCİLER
+           STUDENTS
         ========================= */
 
         .students {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 18px;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
         }
 
         .student-card {
-            background: #0b2d1e;
-            border: 1px solid #24583e;
-            border-radius: 18px;
-            padding: 22px;
+            background: rgba(8, 40, 27, 0.85);
+            border: 1px solid #12482f;
+            border-radius: 16px;
+            padding: 17px 18px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: .2s ease;
         }
 
         .student-card:hover {
-            border-color: #55c98a;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
+            border-color: #299764;
+            background: #0a3322;
         }
 
         .student-card.active {
             border-color: #55c98a;
-            box-shadow: 0 0 0 1px #55c98a;
+            background: #0c3d28;
         }
 
         .student-name {
-            font-size: 19px;
-            font-weight: bold;
-            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 15px;
         }
 
-        .student-email {
-            color: #8fb8a1;
-            font-size: 13px;
+        .student-click {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #74b991;
         }
 
         /* =========================
-           DETAY
+           DETAIL
         ========================= */
 
-        .student-detail {
-            margin-top: 30px;
-            padding: 25px;
-            background: #061a12;
-            border: 1px solid #24583e;
-            border-radius: 18px;
+        #studentDetail {
             display: none;
+            margin-top: 25px;
         }
 
-        .student-detail h2 {
-            margin-bottom: 8px;
+        .detail-box {
+            background: rgba(6, 26, 18, 0.9);
+            border: 1px solid #164e34;
+            border-radius: 22px;
+            padding: 25px;
         }
 
-        .date-range {
-            color: #8fb8a1;
-            font-size: 13px;
-            margin-bottom: 20px;
+        .detail-header {
+            margin-bottom: 22px;
         }
 
-        /* =========================
-           İSTATİSTİK
-        ========================= */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .stat {
-            background: #0b2d1e;
-            padding: 18px;
-            border-radius: 14px;
-            text-align: center;
-        }
-
-        .stat-number {
+        .detail-header h2 {
             font-size: 25px;
-            font-weight: bold;
-            color: #55c98a;
         }
 
-        .stat-label {
-            color: #9bbbaa;
+        .detail-header p {
+            color: #75b892;
             font-size: 13px;
             margin-top: 5px;
         }
 
         /* =========================
-           KAYITLAR
+           HAFTALIK ÖZET
         ========================= */
 
-        .section-title {
-            margin: 25px 0 12px;
-            color: #55c98a;
-        }
-
-        .record {
-            background: #0b2d1e;
-            padding: 14px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .record-left {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .record-date {
-            color: #55c98a;
-            font-weight: bold;
-        }
-
-        .record-info {
-            color: #d6eee0;
-            font-size: 14px;
-        }
-
-        .record-count {
-            font-weight: bold;
-            align-self: center;
-            white-space: nowrap;
-        }
-
-        /* =========================
-           NOTLAR
-        ========================= */
-
-        .note {
-            background: #0b2d1e;
-            padding: 15px;
-            border-radius: 12px;
+        .week-title {
+            font-size: 13px;
+            color: #76bd98;
             margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
         }
 
-        .note-date {
-            color: #55c98a;
-            font-weight: bold;
+        .week-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .week-card {
+            background: #08281b;
+            border: 1px solid #164e34;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .week-card.current {
+            border-color: #2c9d67;
+        }
+
+        .week-card h3 {
+            font-size: 14px;
             margin-bottom: 7px;
         }
 
-        .note-text {
-            color: #e1f3e8;
-            line-height: 1.5;
-            white-space: pre-wrap;
+        .week-range {
+            font-size: 11px;
+            color: #70a989;
+            margin-bottom: 14px;
         }
 
+        .week-number {
+            font-size: 30px;
+            font-weight: 800;
+            color: #65d699;
+        }
+
+        .week-label {
+            color: #82b99c;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .week-breakdown {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 13px;
+        }
+
+        .mini-stat {
+            background: #0d3926;
+            border-radius: 8px;
+            padding: 6px 8px;
+            font-size: 11px;
+            color: #a5dfbd;
+        }
+
+        /* =========================
+           GEÇMİŞ
+        ========================= */
+
+        .history-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #8ed2aa;
+            margin-bottom: 13px;
+        }
+
+        .day-block {
+            padding: 17px 0;
+        }
+
+        .day-block:first-child {
+            padding-top: 5px;
+        }
+
+        .date-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .date-title strong {
+            font-size: 15px;
+            color: #e7fff0;
+        }
+
+        .date-title span {
+            font-size: 12px;
+            color: #65bd8c;
+            font-weight: 600;
+        }
+
+        /* Günlük toplam */
+
+        .daily-total {
+            display: inline-flex;
+            align-items: center;
+            background: #0c3925;
+            border: 1px solid #19583b;
+            color: #71d69d;
+            border-radius: 7px;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .question-line {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 4px 0;
+            color: #ccebd9;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .question-line::before {
+            content: "•";
+            color: #55c98a;
+            font-size: 16px;
+        }
+
+        .question-count {
+            color: #72d99e;
+            font-weight: 700;
+        }
+
+        /* =========================
+           NOT
+        ========================= */
+
+        .note-box {
+            margin-top: 10px;
+            background: #092b1d;
+            border-left: 3px solid #55c98a;
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #bce7cc;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .note-label {
+            display: block;
+            color: #66c994;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           HAFTA AYIRICI
+        ========================= */
+
+        .week-separator {
+            height: 1px;
+            background: #276044;
+            margin: 12px 0 5px;
+            position: relative;
+        }
+
+        .week-separator span {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translate(-50%, -50%);
+            background: #061a12;
+            padding: 0 12px;
+            color: #65bd8c;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+            letter-spacing: .3px;
+        }
+
+        /* =========================
+           DİĞER
+        ========================= */
+
         .empty {
-            color: #89a998;
-            text-align: center;
-            padding: 25px;
+            color: #68977d;
+            font-size: 13px;
+            padding: 10px 0;
         }
 
         .loading {
             text-align: center;
-            color: #9bbbaa;
+            color: #72a88a;
             padding: 30px;
         }
 
-        /* =========================
-           MOBİL
-        ========================= */
-
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
 
             .container {
-                width: 94%;
-                padding: 20px 0;
+                width: 92%;
+                padding-top: 25px;
             }
 
-            .dashboard {
+            header h1 {
+                font-size: 28px;
+            }
+
+            .top-bar {
+                align-items: flex-start;
+            }
+
+            .week-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-box {
                 padding: 18px;
             }
 
-            .topbar {
-                align-items: flex-start;
-                flex-direction: column;
+            .students {
+                grid-template-columns: 1fr;
             }
 
-            .logout {
-                width: 100%;
+            .date-title {
+                gap: 6px;
             }
 
-            .record {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .record-count {
-                align-self: flex-start;
+            .daily-total {
+                margin-top: 2px;
             }
         }
-
     </style>
 </head>
 
@@ -348,60 +474,69 @@
 <div class="container">
 
     <!-- =========================
-         HOCA GİRİŞİ
-    ========================== -->
+         LOGIN
+    ========================= -->
 
-    <div id="loginBox" class="login-box">
+    <div id="loginSection" class="login-box">
 
-        <div class="logo">
-            12/A
-        </div>
-
-        <h1>Öğretmen Girişi</h1>
-
-        <div class="subtitle">
-            Öğrenci soru çözüm kayıtlarını görüntüle
-        </div>
+        <h2>12/A Öğrenci Takibi</h2>
 
         <input
             type="email"
             id="email"
-            placeholder="Öğretmen e-posta"
+            placeholder="Öğretmen e-postası"
+            autocomplete="email"
         >
 
         <input
             type="password"
             id="password"
             placeholder="Şifre"
+            autocomplete="current-password"
         >
 
-        <button onclick="teacherLogin()">
+        <button
+            class="login-btn"
+            onclick="login()"
+        >
             Giriş Yap
         </button>
 
-        <div id="loginError" class="error"></div>
+        <div
+            id="loginError"
+            class="error"
+        ></div>
 
     </div>
 
 
     <!-- =========================
-         ÖĞRETMEN PANELİ
-    ========================== -->
+         DASHBOARD
+    ========================= -->
 
-    <div id="dashboard" class="dashboard" style="display:none;">
+    <div id="dashboard">
 
-        <div class="topbar">
+        <header>
 
-            <div>
-                <div class="logo" style="text-align:left;">
-                    12/A
-                </div>
+            <h1>
+                12/A Öğrenci Takibi
+            </h1>
 
-                <h1>Öğrenci Takibi</h1>
+            <p>
+                Öğrencilerin soru çözüm kayıtları ve günlük notları
+            </p>
+
+        </header>
+
+
+        <div class="top-bar">
+
+            <div class="teacher-title">
+                Öğretmen paneli
             </div>
 
             <button
-                class="logout"
+                class="logout-btn"
                 onclick="logout()"
             >
                 Çıkış Yap
@@ -410,105 +545,21 @@
         </div>
 
 
-        <div id="students" class="students">
+        <!-- ÖĞRENCİLER -->
 
+        <div
+            id="students"
+            class="students"
+        >
             <div class="loading">
                 Öğrenciler yükleniyor...
             </div>
-
         </div>
 
 
-        <!-- =========================
-             ÖĞRENCİ DETAYI
-        ========================== -->
+        <!-- SEÇİLEN ÖĞRENCİ -->
 
-        <div
-            id="studentDetail"
-            class="student-detail"
-        >
-
-            <h2 id="detailName">
-                Öğrenci
-            </h2>
-
-            <div class="date-range">
-                Son 14 gün
-            </div>
-
-
-            <!-- İSTATİSTİK -->
-
-            <div class="stats">
-
-                <div class="stat">
-
-                    <div
-                        id="totalQuestions"
-                        class="stat-number"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-label">
-                        Toplam Soru
-                    </div>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div
-                        id="tytQuestions"
-                        class="stat-number"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-label">
-                        TYT
-                    </div>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div
-                        id="aytQuestions"
-                        class="stat-number"
-                    >
-                        0
-                    </div>
-
-                    <div class="stat-label">
-                        AYT
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- SORULAR -->
-
-            <h3 class="section-title">
-                Soru Çözümleri
-            </h3>
-
-            <div id="questionRecords"></div>
-
-
-            <!-- NOTLAR -->
-
-            <h3 class="section-title">
-                Günlük Notlar
-            </h3>
-
-            <div id="dailyNotes"></div>
-
-        </div>
+        <div id="studentDetail"></div>
 
     </div>
 
@@ -517,9 +568,9 @@
 
 <script>
 
-    // ==================================================
-    // SUPABASE
-    // ==================================================
+    /* ==================================================
+       SUPABASE
+    ================================================== */
 
     const SUPABASE_URL =
         "https://uisyeukqtsbpdfracydn.supabase.co";
@@ -527,688 +578,23 @@
     const SUPABASE_KEY =
         "sb_publishable_t8PW6J6Tdf5f5ueIKC1kng_qq3Hc-77";
 
-
     const supabaseClient =
-        supabase.createClient(
+        window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_KEY
         );
 
 
-    // Açık olan öğrenci
+    /* ==================================================
+       STATE
+    ================================================== */
+
     let openedStudentId = null;
 
 
-    // ==================================================
-    // HOCA GİRİŞ
-    // ==================================================
-
-    async function teacherLogin() {
-
-        const email =
-            document.getElementById("email")
-                .value
-                .trim();
-
-        const password =
-            document.getElementById("password")
-                .value;
-
-        const errorBox =
-            document.getElementById("loginError");
-
-
-        errorBox.textContent = "";
-
-
-        if (!email || !password) {
-
-            errorBox.textContent =
-                "E-posta ve şifreyi gir.";
-
-            return;
-        }
-
-
-        const {
-            data,
-            error
-        } = await supabaseClient.auth.signInWithPassword({
-
-            email: email,
-
-            password: password
-
-        });
-
-
-        if (error) {
-
-            errorBox.textContent =
-                "E-posta veya şifre yanlış.";
-
-            return;
-        }
-
-
-        await checkTeacher(data.user);
-
-    }
-
-
-    // ==================================================
-    // TEACHER KONTROLÜ
-    // ==================================================
-
-    async function checkTeacher(user) {
-
-        const {
-            data: profile,
-            error
-        } = await supabaseClient
-
-            .from("profiles")
-
-            .select("full_name, role")
-
-            .eq("id", user.id)
-
-            .single();
-
-
-        if (error || !profile) {
-
-            await supabaseClient.auth.signOut();
-
-            document.getElementById("loginError")
-                .textContent =
-                "Kullanıcı bilgileri bulunamadı.";
-
-            return;
-        }
-
-
-        // Sadece teacher girebilir
-
-        if (profile.role !== "teacher") {
-
-            await supabaseClient.auth.signOut();
-
-            document.getElementById("loginError")
-                .textContent =
-                "Bu sayfaya sadece öğretmenler girebilir.";
-
-            return;
-        }
-
-
-        // Giriş başarılı
-
-        document.getElementById("loginBox")
-            .style.display = "none";
-
-        document.getElementById("dashboard")
-            .style.display = "block";
-
-
-        loadStudents();
-
-    }
-
-
-    // ==================================================
-    // SON 14 GÜNÜN BAŞLANGIÇ TARİHİ
-    // ==================================================
-
-    function getStartDate() {
-
-        const today = new Date();
-
-        today.setHours(0, 0, 0, 0);
-
-
-        // Bugün dahil son 14 gün
-        today.setDate(
-            today.getDate() - 13
-        );
-
-
-        const year =
-            today.getFullYear();
-
-        const month =
-            String(
-                today.getMonth() + 1
-            ).padStart(2, "0");
-
-        const day =
-            String(
-                today.getDate()
-            ).padStart(2, "0");
-
-
-        return `${year}-${month}-${day}`;
-
-    }
-
-
-    // ==================================================
-    // ÖĞRENCİLERİ GETİR
-    // ==================================================
-
-    async function loadStudents() {
-
-        const studentsBox =
-            document.getElementById("students");
-
-
-        studentsBox.innerHTML =
-            '<div class="loading">Öğrenciler yükleniyor...</div>';
-
-
-        const {
-            data: students,
-            error
-        } = await supabaseClient
-
-            .from("profiles")
-
-            .select("id, full_name")
-
-            .eq("role", "student")
-
-            .order("full_name");
-
-
-        if (error) {
-
-            studentsBox.innerHTML =
-                '<div class="empty">Öğrenciler alınamadı.</div>';
-
-            console.error(error);
-
-            return;
-        }
-
-
-        if (!students || students.length === 0) {
-
-            studentsBox.innerHTML =
-                '<div class="empty">Henüz kayıtlı öğrenci yok.</div>';
-
-            return;
-        }
-
-
-        studentsBox.innerHTML = "";
-
-
-        students.forEach(student => {
-
-            const card =
-                document.createElement("div");
-
-
-            card.className =
-                "student-card";
-
-
-            card.dataset.studentId =
-                student.id;
-
-
-            card.innerHTML = `
-
-                <div class="student-name">
-                    ${escapeHtml(student.full_name)}
-                </div>
-
-                <div class="student-email">
-                    Öğrenci
-                </div>
-
-            `;
-
-
-            card.onclick = () =>
-                toggleStudent(student, card);
-
-
-            studentsBox.appendChild(card);
-
-        });
-
-    }
-
-
-    // ==================================================
-    // ÖĞRENCİYİ AÇ / KAPAT
-    // ==================================================
-
-    async function toggleStudent(student, card) {
-
-        const detail =
-            document.getElementById("studentDetail");
-
-
-        // Aynı öğrenciye tekrar basıldıysa kapat
-
-        if (openedStudentId === student.id) {
-
-            detail.style.display = "none";
-
-            card.classList.remove("active");
-
-            openedStudentId = null;
-
-            return;
-        }
-
-
-        // Diğer kartların active durumunu kaldır
-
-        document
-            .querySelectorAll(".student-card")
-            .forEach(item => {
-
-                item.classList.remove("active");
-
-            });
-
-
-        card.classList.add("active");
-
-
-        openedStudentId =
-            student.id;
-
-
-        await showStudent(student);
-
-    }
-
-
-    // ==================================================
-    // ÖĞRENCİ DETAYI
-    // ==================================================
-
-    async function showStudent(student) {
-
-        const detail =
-            document.getElementById("studentDetail");
-
-
-        detail.style.display =
-            "block";
-
-
-        document.getElementById("detailName")
-            .textContent =
-            student.full_name;
-
-
-        // Yükleniyor
-
-        document.getElementById("questionRecords")
-            .innerHTML =
-            '<div class="loading">Sorular yükleniyor...</div>';
-
-
-        document.getElementById("dailyNotes")
-            .innerHTML =
-            '<div class="loading">Notlar yükleniyor...</div>';
-
-
-        // Son 14 gün
-
-        const startDate =
-            getStartDate();
-
-
-        // ==================================================
-        // SORULARI GETİR
-        // ==================================================
-
-        const {
-            data: questions,
-            error: questionError
-        } = await supabaseClient
-
-            .from("question_entries")
-
-            .select("*")
-
-            .eq("user_id", student.id)
-
-            .gte("date", startDate)
-
-            .order("date", {
-                ascending: false
-            });
-
-
-        if (questionError) {
-
-            console.error(questionError);
-
-            document.getElementById("questionRecords")
-                .innerHTML =
-                '<div class="empty">Sorular alınamadı.</div>';
-
-            return;
-        }
-
-
-        // ==================================================
-        // NOTLARI GETİR
-        // ==================================================
-
-        const {
-            data: notes,
-            error: noteError
-        } = await supabaseClient
-
-            .from("daily_notes")
-
-            .select("*")
-
-            .eq("user_id", student.id)
-
-            .gte("date", startDate)
-
-            .order("date", {
-                ascending: false
-            });
-
-
-        if (noteError) {
-
-            console.error(noteError);
-
-            document.getElementById("dailyNotes")
-                .innerHTML =
-                '<div class="empty">Notlar alınamadı.</div>';
-
-            return;
-        }
-
-
-        // ==================================================
-        // İSTATİSTİK
-        // ==================================================
-
-        let total = 0;
-
-        let tyt = 0;
-
-        let ayt = 0;
-
-
-        questions.forEach(q => {
-
-            const count =
-                Number(q.question_count);
-
-
-            total += count;
-
-
-            if (q.exam_type === "TYT") {
-
-                tyt += count;
-
-            }
-
-
-            if (q.exam_type === "AYT") {
-
-                ayt += count;
-
-            }
-
-        });
-
-
-        document.getElementById("totalQuestions")
-            .textContent =
-            total;
-
-
-        document.getElementById("tytQuestions")
-            .textContent =
-            tyt;
-
-
-        document.getElementById("aytQuestions")
-            .textContent =
-            ayt;
-
-
-        // ==================================================
-        // SORULARI GÖSTER
-        // ==================================================
-
-        const questionBox =
-            document.getElementById("questionRecords");
-
-
-        questionBox.innerHTML = "";
-
-
-        if (!questions || questions.length === 0) {
-
-            questionBox.innerHTML =
-                '<div class="empty">Son 14 günde soru kaydı yok.</div>';
-
-        } else {
-
-            questions.forEach(q => {
-
-                const row =
-                    document.createElement("div");
-
-
-                row.className =
-                    "record";
-
-
-                row.innerHTML = `
-
-                    <div class="record-left">
-
-                        <div class="record-date">
-                            ${formatDate(q.date)}
-                        </div>
-
-                        <div class="record-info">
-                            ${escapeHtml(q.exam_type)}
-                            ·
-                            ${escapeHtml(q.subject)}
-                        </div>
-
-                    </div>
-
-
-                    <div class="record-count">
-                        ${q.question_count} soru
-                    </div>
-
-                `;
-
-
-                questionBox.appendChild(row);
-
-            });
-
-        }
-
-
-        // ==================================================
-        // NOTLARI GÖSTER
-        // ==================================================
-
-        const notesBox =
-            document.getElementById("dailyNotes");
-
-
-        notesBox.innerHTML = "";
-
-
-        if (!notes || notes.length === 0) {
-
-            notesBox.innerHTML =
-                '<div class="empty">Son 14 günde günlük not yok.</div>';
-
-        } else {
-
-            notes.forEach(note => {
-
-                const box =
-                    document.createElement("div");
-
-
-                box.className =
-                    "note";
-
-
-                box.innerHTML = `
-
-                    <div class="note-date">
-                        ${formatDate(note.date)}
-                    </div>
-
-                    <div class="note-text">
-                        ${escapeHtml(note.note)}
-                    </div>
-
-                `;
-
-
-                notesBox.appendChild(box);
-
-            });
-
-        }
-
-
-        // Detaya kaydır
-
-        detail.scrollIntoView({
-
-            behavior: "smooth",
-
-            block: "start"
-
-        });
-
-    }
-
-
-    // ==================================================
-    // TARİH + GÜN
-    // ==================================================
-
-    function formatDate(dateString) {
-
-        const date =
-            new Date(
-                dateString + "T00:00:00"
-            );
-
-
-        const days = [
-
-            "Pazar",
-            "Pazartesi",
-            "Salı",
-            "Çarşamba",
-            "Perşembe",
-            "Cuma",
-            "Cumartesi"
-
-        ];
-
-
-        const dayName =
-            days[date.getDay()];
-
-
-        const shortDays = {
-
-            "Pazartesi": "Pzt",
-
-            "Salı": "Salı",
-
-            "Çarşamba": "Çar",
-
-            "Perşembe": "Per",
-
-            "Cuma": "Cum",
-
-            "Cumartesi": "Cmt",
-
-            "Pazar": "Paz"
-
-        };
-
-
-        const shortDay =
-            shortDays[dayName];
-
-
-        const formattedDate =
-            date.toLocaleDateString(
-                "tr-TR",
-                {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric"
-                }
-            );
-
-
-        return `${formattedDate} · ${shortDay}`;
-
-    }
-
-
-    // ==================================================
-    // ÇIKIŞ
-    // ==================================================
-
-    async function logout() {
-
-        await supabaseClient.auth.signOut();
-
-
-        document.getElementById("dashboard")
-            .style.display = "none";
-
-
-        document.getElementById("loginBox")
-            .style.display = "block";
-
-
-        document.getElementById("studentDetail")
-            .style.display = "none";
-
-
-        document.getElementById("email")
-            .value = "";
-
-
-        document.getElementById("password")
-            .value = "";
-
-
-        openedStudentId = null;
-
-    }
-
-
-    // ==================================================
-    // HTML GÜVENLİĞİ
-    // ==================================================
+    /* ==================================================
+       HTML GÜVENLİĞİ
+    ================================================== */
 
     function escapeHtml(text) {
 
@@ -1216,56 +602,1407 @@
             text === null ||
             text === undefined
         ) {
-
             return "";
-
         }
 
-
         return String(text)
-
             .replace(/&/g, "&amp;")
-
             .replace(/</g, "&lt;")
-
             .replace(/>/g, "&gt;")
-
             .replace(/"/g, "&quot;")
-
             .replace(/'/g, "&#039;");
 
     }
 
 
-    // ==================================================
-    // SAYFA AÇILINCA OTURUM KONTROLÜ
-    // ==================================================
+    /* ==================================================
+       TARİH
+    ================================================== */
 
-    async function checkExistingSession() {
+    function parseDate(dateString) {
 
-        const {
-            data: {
-                session
+        return new Date(
+            dateString + "T00:00:00"
+        );
+
+    }
+
+
+    function dateToKey(date) {
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(
+                date.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                date.getDate()
+            ).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+
+    function formatDate(dateString) {
+
+        const date =
+            parseDate(dateString);
+
+        return date.toLocaleDateString(
+            "tr-TR",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
             }
-        } =
-            await supabaseClient
-                .auth
-                .getSession();
+        );
+
+    }
 
 
-        if (!session) {
+    function getDayName(dateString) {
+
+        const date =
+            parseDate(dateString);
+
+        const days = [
+            "Pazar",
+            "Pazartesi",
+            "Salı",
+            "Çarşamba",
+            "Perşembe",
+            "Cuma",
+            "Cumartesi"
+        ];
+
+        return days[date.getDay()];
+
+    }
+
+
+    /* ==================================================
+       HAFTA
+       PAZARTESİ → PAZAR
+    ================================================== */
+
+    function getMonday(date) {
+
+        const result =
+            new Date(date);
+
+        result.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+        const day =
+            result.getDay();
+
+        const difference =
+            day === 0
+                ? -6
+                : 1 - day;
+
+        result.setDate(
+            result.getDate() + difference
+        );
+
+        return result;
+
+    }
+
+
+    function getWeekRange(offset = 0) {
+
+        const today =
+            new Date();
+
+        today.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+        const monday =
+            getMonday(today);
+
+        monday.setDate(
+            monday.getDate() +
+            offset * 7
+        );
+
+        const sunday =
+            new Date(monday);
+
+        sunday.setDate(
+            sunday.getDate() + 6
+        );
+
+        return {
+            start: dateToKey(monday),
+            end: dateToKey(sunday)
+        };
+
+    }
+
+
+    function formatWeekRange(range) {
+
+        return `
+            ${formatDate(range.start)}
+            –
+            ${formatDate(range.end)}
+        `;
+
+    }
+
+
+    /* ==================================================
+       LOGIN
+    ================================================== */
+
+    async function login() {
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+        const error =
+            document
+                .getElementById("loginError");
+
+        error.textContent = "";
+
+
+        if (
+            !email ||
+            !password
+        ) {
+
+            error.textContent =
+                "E-posta ve şifreyi gir.";
 
             return;
 
         }
 
 
-        await checkTeacher(
-            session.user
+        const {
+            data,
+            error: loginError
+        } =
+            await supabaseClient.auth
+                .signInWithPassword({
+                    email,
+                    password
+                });
+
+
+        if (loginError) {
+
+            error.textContent =
+                "E-posta veya şifre hatalı.";
+
+            return;
+
+        }
+
+
+        const isTeacher =
+            await checkTeacher(
+                data.user
+            );
+
+
+        if (!isTeacher) {
+
+            await supabaseClient.auth
+                .signOut();
+
+            error.textContent =
+                "Bu hesap öğretmen hesabı değil.";
+
+            return;
+
+        }
+
+
+        showDashboard();
+
+    }
+
+
+    /* ==================================================
+       ÖĞRETMEN KONTROLÜ
+    ================================================== */
+
+    async function checkTeacher(user) {
+
+        if (!user) {
+            return false;
+        }
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select("role")
+                .eq("id", user.id)
+                .maybeSingle();
+
+
+        if (
+            error ||
+            !data
+        ) {
+            return false;
+        }
+
+
+        return data.role === "teacher";
+
+    }
+
+
+    /* ==================================================
+       DASHBOARD
+    ================================================== */
+
+    function showDashboard() {
+
+        document
+            .getElementById("loginSection")
+            .style.display = "none";
+
+        document
+            .getElementById("dashboard")
+            .style.display = "block";
+
+        loadStudents();
+
+    }
+
+
+    /* ==================================================
+       ÇIKIŞ
+    ================================================== */
+
+    async function logout() {
+
+        await supabaseClient.auth
+            .signOut();
+
+        openedStudentId = null;
+
+
+        document
+            .getElementById("dashboard")
+            .style.display = "none";
+
+
+        document
+            .getElementById("loginSection")
+            .style.display = "block";
+
+
+        document
+            .getElementById("studentDetail")
+            .style.display = "none";
+
+
+        document
+            .getElementById("email")
+            .value = "";
+
+
+        document
+            .getElementById("password")
+            .value = "";
+
+    }
+
+
+    /* ==================================================
+       ÖĞRENCİLERİ GETİR
+    ================================================== */
+
+    async function loadStudents() {
+
+        const container =
+            document.getElementById(
+                "students"
+            );
+
+
+        container.innerHTML = `
+            <div class="loading">
+                Öğrenciler yükleniyor...
+            </div>
+        `;
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select(
+                    "id, full_name"
+                )
+                .eq(
+                    "role",
+                    "student"
+                )
+                .order(
+                    "full_name",
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        if (error) {
+
+            console.error(error);
+
+            container.innerHTML = `
+                <div class="empty">
+                    Öğrenciler yüklenirken hata oluştu.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    Henüz öğrenci bulunmuyor.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        data.forEach(student => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "student-card";
+
+
+            card.innerHTML = `
+                <div class="student-name">
+                    ${escapeHtml(
+                        student.full_name
+                    )}
+                </div>
+
+                <div class="student-click">
+                    Detayları görmek için tıkla
+                </div>
+            `;
+
+
+            card.addEventListener(
+                "click",
+                () =>
+                    toggleStudent(
+                        student,
+                        card
+                    )
+            );
+
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+
+    /* ==================================================
+       ÖĞRENCİ AÇ / KAPAT
+    ================================================== */
+
+    async function toggleStudent(
+        student,
+        card
+    ) {
+
+        const detail =
+            document.getElementById(
+                "studentDetail"
+            );
+
+
+        /* Aynı öğrenciye tekrar tıklanırsa kapat */
+
+        if (
+            openedStudentId ===
+            student.id
+        ) {
+
+            detail.style.display =
+                "none";
+
+            card.classList.remove(
+                "active"
+            );
+
+            openedStudentId = null;
+
+            return;
+
+        }
+
+
+        /* Diğer kartları kapat */
+
+        document
+            .querySelectorAll(
+                ".student-card"
+            )
+            .forEach(item => {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+        card.classList.add(
+            "active"
+        );
+
+
+        openedStudentId =
+            student.id;
+
+
+        detail.style.display =
+            "block";
+
+
+        detail.innerHTML = `
+            <div class="detail-box">
+
+                <div class="loading">
+                    ${escapeHtml(
+                        student.full_name
+                    )}
+                    yükleniyor...
+                </div>
+
+            </div>
+        `;
+
+
+        await showStudent(
+            student
         );
 
     }
 
+
+    /* ==================================================
+       ÖĞRENCİ VERİLERİNİ GETİR
+    ================================================== */
+
+    async function showStudent(
+        student
+    ) {
+
+        const detail =
+            document.getElementById(
+                "studentDetail"
+            );
+
+
+        const [
+            questionResult,
+            noteResult
+        ] =
+            await Promise.all([
+
+                supabaseClient
+                    .from(
+                        "question_entries"
+                    )
+                    .select(`
+                        id,
+                        date,
+                        exam_type,
+                        subject,
+                        question_count,
+                        created_at
+                    `)
+                    .eq(
+                        "user_id",
+                        student.id
+                    )
+                    .order(
+                        "date",
+                        {
+                            ascending: false
+                        }
+                    )
+                    .order(
+                        "created_at",
+                        {
+                            ascending: true
+                        }
+                    ),
+
+                supabaseClient
+                    .from(
+                        "daily_notes"
+                    )
+                    .select(`
+                        id,
+                        date,
+                        note,
+                        updated_at
+                    `)
+                    .eq(
+                        "user_id",
+                        student.id
+                    )
+                    .order(
+                        "date",
+                        {
+                            ascending: false
+                        }
+                    )
+
+            ]);
+
+
+        if (
+            questionResult.error
+        ) {
+
+            console.error(
+                questionResult.error
+            );
+
+        }
+
+
+        if (
+            noteResult.error
+        ) {
+
+            console.error(
+                noteResult.error
+            );
+
+        }
+
+
+        const questions =
+            questionResult.data || [];
+
+
+        const notes =
+            noteResult.data || [];
+
+
+        renderStudent(
+            student,
+            questions,
+            notes
+        );
+
+    }
+
+
+    /* ==================================================
+       HAFTALIK TOPLAM HESAPLA
+    ================================================== */
+
+    function calculateWeekStats(
+        questions,
+        range
+    ) {
+
+        const filtered =
+            questions.filter(
+                item =>
+                    item.date >=
+                        range.start &&
+                    item.date <=
+                        range.end
+            );
+
+
+        let total = 0;
+        let tyt = 0;
+        let ayt = 0;
+
+
+        filtered.forEach(
+            item => {
+
+                const count =
+                    Number(
+                        item.question_count
+                    ) || 0;
+
+
+                total += count;
+
+
+                if (
+                    item.exam_type ===
+                    "TYT"
+                ) {
+
+                    tyt += count;
+
+                }
+
+
+                if (
+                    item.exam_type ===
+                    "AYT"
+                ) {
+
+                    ayt += count;
+
+                }
+
+            }
+        );
+
+
+        return {
+            total,
+            tyt,
+            ayt
+        };
+
+    }
+
+
+    /* ==================================================
+       HAFTA KARTI
+    ================================================== */
+
+    function createWeekCard(
+        title,
+        range,
+        stats,
+        current = false
+    ) {
+
+        return `
+            <div class="
+                week-card
+                ${current ? "current" : ""}
+            ">
+
+                <h3>
+                    ${title}
+                </h3>
+
+                <div class="week-range">
+                    ${formatWeekRange(
+                        range
+                    )}
+                </div>
+
+                <div class="week-number">
+                    ${stats.total}
+                </div>
+
+                <div class="week-label">
+                    toplam soru
+                </div>
+
+                <div class="week-breakdown">
+
+                    <div class="mini-stat">
+                        TYT ${stats.tyt}
+                    </div>
+
+                    <div class="mini-stat">
+                        AYT ${stats.ayt}
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+    }
+
+
+    /* ==================================================
+       TARİHLERE GÖRE GRUPLA
+    ================================================== */
+
+    function groupByDate(
+        questions,
+        notes
+    ) {
+
+        const groups = {};
+
+
+        questions.forEach(
+            item => {
+
+                if (
+                    !groups[item.date]
+                ) {
+
+                    groups[item.date] = {
+                        questions: [],
+                        notes: []
+                    };
+
+                }
+
+
+                groups[item.date]
+                    .questions
+                    .push(item);
+
+            }
+        );
+
+
+        notes.forEach(
+            item => {
+
+                if (
+                    !groups[item.date]
+                ) {
+
+                    groups[item.date] = {
+                        questions: [],
+                        notes: []
+                    };
+
+                }
+
+
+                groups[item.date]
+                    .notes
+                    .push(item);
+
+            }
+        );
+
+
+        return groups;
+
+    }
+
+
+    /* ==================================================
+       GÜNLÜK TOPLAM
+    ================================================== */
+
+    function calculateDailyTotal(
+        questions
+    ) {
+
+        return questions.reduce(
+            (total, item) => {
+
+                return total +
+                    (
+                        Number(
+                            item.question_count
+                        ) || 0
+                    );
+
+            },
+            0
+        );
+
+    }
+
+
+    /* ==================================================
+       GÜN BLOĞU
+    ================================================== */
+
+    function createDayBlock(
+        date,
+        group
+    ) {
+
+        const dailyTotal =
+            calculateDailyTotal(
+                group.questions
+            );
+
+
+        let html = `
+            <div class="day-block">
+
+                <div class="date-title">
+
+                    <strong>
+                        ${formatDate(date)}
+                    </strong>
+
+                    <span>
+                        ${getDayName(date)}
+                    </span>
+
+                    <div class="daily-total">
+                        ${dailyTotal} soru
+                    </div>
+
+                </div>
+        `;
+
+
+        /* Soru kayıtları */
+
+        if (
+            group.questions.length > 0
+        ) {
+
+            group.questions.forEach(
+                item => {
+
+                    html += `
+                        <div class="question-line">
+
+                            <span>
+
+                                ${escapeHtml(
+                                    item.exam_type
+                                )}
+
+                                ${escapeHtml(
+                                    item.subject
+                                )}
+
+                                <span
+                                    class="question-count"
+                                >
+                                    ${Number(
+                                        item.question_count
+                                    )}
+                                </span>
+
+                                soru
+
+                            </span>
+
+                        </div>
+                    `;
+
+                }
+            );
+
+        }
+
+
+        /* Notlar */
+
+        if (
+            group.notes.length > 0
+        ) {
+
+            group.notes.forEach(
+                note => {
+
+                    html += `
+                        <div class="note-box">
+
+                            <span
+                                class="note-label"
+                            >
+                                Günün Notu
+                            </span>
+
+                            ${escapeHtml(
+                                note.note
+                            )}
+
+                        </div>
+                    `;
+
+                }
+            );
+
+        }
+
+
+        html += `
+            </div>
+        `;
+
+
+        return html;
+
+    }
+
+
+    /* ==================================================
+       BELİRLİ HAFTANIN TOPLAMINI BUL
+    ================================================== */
+
+    function getWeekTotalForDate(
+        dateString,
+        questions
+    ) {
+
+        const date =
+            parseDate(dateString);
+
+        const monday =
+            getMonday(date);
+
+        const sunday =
+            new Date(monday);
+
+        sunday.setDate(
+            sunday.getDate() + 6
+        );
+
+
+        const start =
+            dateToKey(monday);
+
+        const end =
+            dateToKey(sunday);
+
+
+        return questions.reduce(
+            (total, item) => {
+
+                if (
+                    item.date >= start &&
+                    item.date <= end
+                ) {
+
+                    return total +
+                        (
+                            Number(
+                                item.question_count
+                            ) || 0
+                        );
+
+                }
+
+                return total;
+
+            },
+            0
+        );
+
+    }
+
+
+    /* ==================================================
+       PAZAR / HAFTA DEĞİŞİMİ
+    ================================================== */
+
+    function shouldAddWeekSeparator(
+        currentDate,
+        nextDate
+    ) {
+
+        const current =
+            parseDate(currentDate);
+
+
+        /* Pazar ise kesinlikle ayır */
+
+        if (
+            current.getDay() === 0
+        ) {
+
+            return true;
+
+        }
+
+
+        /*
+         * Arada veri olmayan günler olabilir.
+         * Sonraki kayıt başka haftadaysa
+         * yine ayır.
+         */
+
+        if (nextDate) {
+
+            const currentMonday =
+                getMonday(current);
+
+            const next =
+                parseDate(nextDate);
+
+            const nextMonday =
+                getMonday(next);
+
+
+            return (
+                dateToKey(
+                    currentMonday
+                ) !==
+                dateToKey(
+                    nextMonday
+                )
+            );
+
+        }
+
+
+        return false;
+
+    }
+
+
+    /* ==================================================
+       HAFTA AYIRICI
+    ================================================== */
+
+    function createWeekSeparator(
+        nextDate,
+        questions
+    ) {
+
+        const nextWeekTotal =
+            getWeekTotalForDate(
+                nextDate,
+                questions
+            );
+
+
+        return `
+            <div class="week-separator">
+
+                <span>
+                    YENİ HAFTA
+                    ·
+                    ${nextWeekTotal} SORU
+                </span>
+
+            </div>
+        `;
+
+    }
+
+
+    /* ==================================================
+       ANA RENDER
+    ================================================== */
+
+    function renderStudent(
+        student,
+        questions,
+        notes
+    ) {
+
+        const detail =
+            document.getElementById(
+                "studentDetail"
+            );
+
+
+        /* Bu hafta */
+
+        const currentWeek =
+            getWeekRange(0);
+
+
+        /* Önceki hafta */
+
+        const previousWeek =
+            getWeekRange(-1);
+
+
+        const currentStats =
+            calculateWeekStats(
+                questions,
+                currentWeek
+            );
+
+
+        const previousStats =
+            calculateWeekStats(
+                questions,
+                previousWeek
+            );
+
+
+        /* Tarihlere göre grupla */
+
+        const grouped =
+            groupByDate(
+                questions,
+                notes
+            );
+
+
+        /*
+         * Kayıt bulunan bütün tarihler.
+         * Yeniden eskiye sıralanıyor.
+         */
+
+        const dates =
+            Object.keys(grouped)
+                .sort()
+                .reverse();
+
+
+        let historyHtml = "";
+
+
+        if (
+            dates.length === 0
+        ) {
+
+            historyHtml = `
+                <div class="empty">
+                    Henüz soru çözümü veya not kaydı yok.
+                </div>
+            `;
+
+        } else {
+
+            dates.forEach(
+                (date, index) => {
+
+                    /* Gün */
+
+                    historyHtml +=
+                        createDayBlock(
+                            date,
+                            grouped[date]
+                        );
+
+
+                    const nextDate =
+                        dates[index + 1];
+
+
+                    /*
+                     * Hafta değişimi
+                     */
+
+                    if (
+                        shouldAddWeekSeparator(
+                            date,
+                            nextDate
+                        )
+                    ) {
+
+                        /*
+                         * Bir sonraki kayıt varsa
+                         * onun haftasının toplamını göster.
+                         */
+
+                        if (nextDate) {
+
+                            historyHtml +=
+                                createWeekSeparator(
+                                    nextDate,
+                                    questions
+                                );
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =========================
+           EKRANA BAS
+        ========================= */
+
+        detail.innerHTML = `
+
+            <div class="detail-box">
+
+                <div class="detail-header">
+
+                    <h2>
+                        ${escapeHtml(
+                            student.full_name
+                        )}
+                    </h2>
+
+                    <p>
+                        Soru çözüm geçmişi
+                    </p>
+
+                </div>
+
+
+                <!-- HAFTALIK ÖZET -->
+
+                <div class="week-title">
+                    Haftalık Özet
+                </div>
+
+
+                <div class="week-stats">
+
+                    ${createWeekCard(
+                        "Bu Hafta",
+                        currentWeek,
+                        currentStats,
+                        true
+                    )}
+
+                    ${createWeekCard(
+                        "Önceki Hafta",
+                        previousWeek,
+                        previousStats,
+                        false
+                    )}
+
+                </div>
+
+
+                <!-- TÜM GEÇMİŞ -->
+
+                <div class="history-title">
+                    Soru Çözüm Geçmişi
+                </div>
+
+
+                <div>
+                    ${historyHtml}
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* ==================================================
+       MEVCUT OTURUM
+    ================================================== */
+
+    async function checkExistingSession() {
+
+        const {
+            data
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+
+        const session =
+            data.session;
+
+
+        if (!session) {
+            return;
+        }
+
+
+        const isTeacher =
+            await checkTeacher(
+                session.user
+            );
+
+
+        if (isTeacher) {
+
+            showDashboard();
+
+        } else {
+
+            await supabaseClient.auth
+                .signOut();
+
+        }
+
+    }
+
+
+    /* ==================================================
+       AUTH STATE
+    ================================================== */
+
+    supabaseClient.auth
+        .onAuthStateChange(
+            async (
+                event,
+                session
+            ) => {
+
+                if (
+                    event ===
+                    "SIGNED_OUT"
+                ) {
+
+                    document
+                        .getElementById(
+                            "dashboard"
+                        )
+                        .style.display =
+                        "none";
+
+
+                    document
+                        .getElementById(
+                            "loginSection"
+                        )
+                        .style.display =
+                        "block";
+
+                }
+
+            }
+        );
+
+
+    /* ==================================================
+       BAŞLAT
+    ================================================== */
 
     checkExistingSession();
 
