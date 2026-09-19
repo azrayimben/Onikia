@@ -1133,9 +1133,14 @@
         `;
 
 
-        await showStudent(
-            student
-        );
+        await showStudent(student);
+
+setTimeout(() => {
+    detail.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}, 50);
 
     }
 
