@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -17,6 +18,7 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
+
             background:
                 radial-gradient(
                     circle at top left,
@@ -29,6 +31,7 @@
                     #061a12 45%,
                     #08281b
                 );
+
             color: #eafff2;
             min-height: 100vh;
         }
@@ -38,6 +41,7 @@
             margin: 0 auto;
             padding: 35px 0 60px;
         }
+
 
         /* =========================
            HEADER
@@ -60,6 +64,7 @@
             font-size: 14px;
         }
 
+
         /* =========================
            LOGIN
         ========================= */
@@ -67,11 +72,17 @@
         .login-box {
             width: min(420px, 100%);
             margin: 70px auto;
+
             background: rgba(8, 40, 27, 0.92);
+
             border: 1px solid rgba(85, 201, 138, 0.18);
+
             border-radius: 22px;
+
             padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,.25);
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,.25);
         }
 
         .login-box h2 {
@@ -81,12 +92,19 @@
 
         input {
             width: 100%;
+
             padding: 13px 14px;
+
             border-radius: 11px;
+
             border: 1px solid #1c5b3d;
+
             background: #061a12;
+
             color: white;
+
             outline: none;
+
             margin-bottom: 12px;
         }
 
@@ -103,9 +121,13 @@
 
         .login-btn {
             width: 100%;
+
             padding: 13px;
+
             background: #1c8c5a;
+
             color: white;
+
             font-size: 15px;
         }
 
@@ -115,10 +137,14 @@
 
         .error {
             color: #ff9c9c;
+
             text-align: center;
+
             font-size: 13px;
+
             margin-top: 12px;
         }
+
 
         /* =========================
            DASHBOARD
@@ -130,9 +156,13 @@
 
         .top-bar {
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             gap: 15px;
+
             margin-bottom: 25px;
         }
 
@@ -143,8 +173,11 @@
 
         .logout-btn {
             background: #102e20;
+
             color: #a8e2c0;
+
             border: 1px solid #1d5439;
+
             padding: 9px 15px;
         }
 
@@ -152,34 +185,46 @@
             background: #163c29;
         }
 
+
         /* =========================
            STUDENTS
         ========================= */
 
         .students {
             display: grid;
+
             grid-template-columns:
                 repeat(auto-fit, minmax(220px, 1fr));
+
             gap: 12px;
         }
 
         .student-card {
-            background: rgba(8, 40, 27, 0.85);
+            background:
+                rgba(8, 40, 27, 0.85);
+
             border: 1px solid #12482f;
+
             border-radius: 16px;
+
             padding: 17px 18px;
+
             cursor: pointer;
+
             transition: .2s ease;
         }
 
         .student-card:hover {
             transform: translateY(-2px);
+
             border-color: #299764;
+
             background: #0a3322;
         }
 
         .student-card.active {
             border-color: #55c98a;
+
             background: #0c3d28;
         }
 
@@ -190,9 +235,12 @@
 
         .student-click {
             margin-top: 6px;
+
             font-size: 12px;
+
             color: #74b991;
         }
+
 
         /* =========================
            DETAIL
@@ -200,13 +248,20 @@
 
         #studentDetail {
             display: none;
+
             margin-top: 25px;
+
+            scroll-margin-top: 20px;
         }
 
         .detail-box {
-            background: rgba(6, 26, 18, 0.9);
+            background:
+                rgba(6, 26, 18, 0.9);
+
             border: 1px solid #164e34;
+
             border-radius: 22px;
+
             padding: 25px;
         }
 
@@ -220,9 +275,12 @@
 
         .detail-header p {
             color: #75b892;
+
             font-size: 13px;
+
             margin-top: 5px;
         }
+
 
         /* =========================
            HAFTALIK ÖZET
@@ -230,24 +288,35 @@
 
         .week-title {
             font-size: 13px;
+
             color: #76bd98;
+
             margin-bottom: 10px;
+
             font-weight: 700;
+
             text-transform: uppercase;
+
             letter-spacing: .5px;
         }
 
         .week-stats {
             display: grid;
+
             grid-template-columns: 1fr 1fr;
+
             gap: 12px;
+
             margin-bottom: 30px;
         }
 
         .week-card {
             background: #08281b;
+
             border: 1px solid #164e34;
+
             border-radius: 16px;
+
             padding: 18px;
         }
 
@@ -257,41 +326,56 @@
 
         .week-card h3 {
             font-size: 14px;
+
             margin-bottom: 7px;
         }
 
         .week-range {
             font-size: 11px;
+
             color: #70a989;
+
             margin-bottom: 14px;
         }
 
         .week-number {
             font-size: 30px;
+
             font-weight: 800;
+
             color: #65d699;
         }
 
         .week-label {
             color: #82b99c;
+
             font-size: 12px;
+
             margin-top: 3px;
         }
 
         .week-breakdown {
             display: flex;
+
             gap: 8px;
+
             flex-wrap: wrap;
+
             margin-top: 13px;
         }
 
         .mini-stat {
             background: #0d3926;
+
             border-radius: 8px;
+
             padding: 6px 8px;
+
             font-size: 11px;
+
             color: #a5dfbd;
         }
+
 
         /* =========================
            GEÇMİŞ
@@ -299,72 +383,140 @@
 
         .history-title {
             font-size: 14px;
+
             font-weight: 700;
+
             color: #8ed2aa;
+
             margin-bottom: 13px;
         }
 
+
+        /* =========================
+           GÜN BLOĞU
+        ========================= */
+
         .day-block {
-            padding: 17px 0;
+            position: relative;
+
+            padding: 16px 0;
         }
 
         .day-block:first-child {
             padding-top: 5px;
         }
 
+        /*
+         * Günleri birbirinden ayıran
+         * ince ve kısa çizgi
+         */
+        .day-block:not(:last-child)::after {
+            content: "";
+
+            position: absolute;
+
+            left: 8%;
+            right: 8%;
+
+            bottom: 0;
+
+            height: 1px;
+
+            background:
+                rgba(62, 119, 88, 0.38);
+        }
+
+
+        /* =========================
+           TARİH
+        ========================= */
+
         .date-title {
             display: flex;
+
             align-items: center;
+
             gap: 9px;
+
             flex-wrap: wrap;
+
             margin-bottom: 8px;
         }
 
         .date-title strong {
             font-size: 15px;
+
             color: #e7fff0;
         }
 
         .date-title span {
             font-size: 12px;
+
             color: #65bd8c;
+
             font-weight: 600;
         }
 
-        /* Günlük toplam */
+
+        /* =========================
+           GÜNLÜK TOPLAM
+        ========================= */
 
         .daily-total {
             display: inline-flex;
+
             align-items: center;
+
             background: #0c3925;
+
             border: 1px solid #19583b;
+
             color: #71d69d;
+
             border-radius: 7px;
+
             padding: 4px 8px;
-            font-size: 11px;
+
+            font-size: 20px;
+
             font-weight: 700;
         }
 
+
+        /* =========================
+           SORULAR
+        ========================= */
+
         .question-line {
             display: flex;
+
             align-items: center;
+
             gap: 7px;
+
             padding: 4px 0;
+
             color: #ccebd9;
-            font-size: 13px;
+
+            font-size: 15px;
+
             line-height: 1.5;
         }
 
         .question-line::before {
             content: "•";
+
             color: #55c98a;
+
             font-size: 16px;
         }
 
         .question-count {
             color: #72d99e;
+
             font-weight: 700;
         }
+
 
         /* =========================
            NOT
@@ -372,48 +524,121 @@
 
         .note-box {
             margin-top: 10px;
+
             background: #092b1d;
+
             border-left: 3px solid #55c98a;
+
             border-radius: 8px;
+
             padding: 10px 12px;
+
             color: #bce7cc;
+
             font-size: 13px;
+
             line-height: 1.55;
         }
 
         .note-label {
             display: block;
+
             color: #66c994;
+
             font-size: 11px;
+
             font-weight: 700;
+
             margin-bottom: 4px;
+
             text-transform: uppercase;
         }
 
-        /* =========================
+
+        /* =================================================
            HAFTA AYIRICI
-        ========================= */
+           DAHA KALIN + DAHA BELİRGİN
+        ================================================= */
 
         .week-separator {
-            height: 1px;
-            background: #276044;
-            margin: 12px 0 5px;
             position: relative;
+
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #3c8d62 12%,
+                    #4eaa77 50%,
+                    #3c8d62 88%,
+                    transparent
+                );
+
+            margin: 22px 0 20px;
         }
 
-        .week-separator span {
+
+        /*
+         * Yazı çizginin tam ortasında.
+         * YENİ HAFTA ve soru sayısı yan yana.
+         */
+
+        .week-separator-content {
             position: absolute;
+
             left: 50%;
-            top: 0;
-            transform: translate(-50%, -50%);
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            padding: 0 14px;
+
             background: #061a12;
-            padding: 0 12px;
-            color: #65bd8c;
-            font-size: 10px;
-            font-weight: 700;
+
             white-space: nowrap;
-            letter-spacing: .3px;
         }
+
+
+        .week-separator-title {
+            color: #78dca2;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: .5px;
+        }
+
+
+        .week-separator-dot {
+            color: #397b59;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .week-separator-count {
+            color: #7be3a7;
+
+            font-size: 17px;
+
+            font-weight: 900;
+
+            letter-spacing: .1px;
+        }
+
 
         /* =========================
            DİĞER
@@ -421,20 +646,30 @@
 
         .empty {
             color: #68977d;
+
             font-size: 13px;
+
             padding: 10px 0;
         }
 
         .loading {
             text-align: center;
+
             color: #72a88a;
+
             padding: 30px;
         }
+
+
+        /* =========================
+           MOBİL
+        ========================= */
 
         @media (max-width: 650px) {
 
             .container {
                 width: 92%;
+
                 padding-top: 25px;
             }
 
@@ -465,21 +700,53 @@
             .daily-total {
                 margin-top: 2px;
             }
+
+            .week-separator {
+                margin: 20px 0 18px;
+            }
+
+            .week-separator-content {
+                gap: 7px;
+
+                padding: 0 10px;
+            }
+
+            .week-separator-title {
+                font-size: 10px;
+            }
+
+            .week-separator-count {
+                font-size: 15px;
+            }
+
+            .week-separator-dot {
+                font-size: 10px;
+            }
+
         }
+
     </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
+
     <!-- =========================
          LOGIN
     ========================= -->
 
-    <div id="loginSection" class="login-box">
+    <div
+        id="loginSection"
+        class="login-box"
+    >
 
-        <h2>12/A Öğrenci Takibi</h2>
+        <h2>
+            12/A Öğrenci Takibi
+        </h2>
+
 
         <input
             type="email"
@@ -488,6 +755,7 @@
             autocomplete="email"
         >
 
+
         <input
             type="password"
             id="password"
@@ -495,12 +763,14 @@
             autocomplete="current-password"
         >
 
+
         <button
             class="login-btn"
             onclick="login()"
         >
             Giriş Yap
         </button>
+
 
         <div
             id="loginError"
@@ -510,11 +780,13 @@
     </div>
 
 
+
     <!-- =========================
          DASHBOARD
     ========================= -->
 
     <div id="dashboard">
+
 
         <header>
 
@@ -529,11 +801,13 @@
         </header>
 
 
+
         <div class="top-bar">
 
             <div class="teacher-title">
                 Öğretmen paneli
             </div>
+
 
             <button
                 class="logout-btn"
@@ -545,28 +819,35 @@
         </div>
 
 
+
         <!-- ÖĞRENCİLER -->
 
         <div
             id="students"
             class="students"
         >
+
             <div class="loading">
                 Öğrenciler yükleniyor...
             </div>
+
         </div>
 
 
-        <!-- SEÇİLEN ÖĞRENCİ -->
+
+        <!-- ÖĞRENCİ DETAY -->
 
         <div id="studentDetail"></div>
+
 
     </div>
 
 </div>
 
 
+
 <script>
+
 
     /* ==================================================
        SUPABASE
@@ -575,8 +856,10 @@
     const SUPABASE_URL =
         "https://uisyeukqtsbpdfracydn.supabase.co";
 
+
     const SUPABASE_KEY =
         "sb_publishable_t8PW6J6Tdf5f5ueIKC1kng_qq3Hc-77";
+
 
     const supabaseClient =
         window.supabase.createClient(
@@ -585,11 +868,13 @@
         );
 
 
+
     /* ==================================================
        STATE
     ================================================== */
 
     let openedStudentId = null;
+
 
 
     /* ==================================================
@@ -605,53 +890,94 @@
             return "";
         }
 
+
         return String(text)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
 
     }
+
 
 
     /* ==================================================
        TARİH
     ================================================== */
 
-    function parseDate(dateString) {
+    function parseDate(
+        dateString
+    ) {
 
         return new Date(
-            dateString + "T00:00:00"
+            dateString +
+            "T00:00:00"
         );
 
     }
 
 
-    function dateToKey(date) {
+    function dateToKey(
+        date
+    ) {
 
         const year =
             date.getFullYear();
 
+
         const month =
             String(
                 date.getMonth() + 1
-            ).padStart(2, "0");
+            ).padStart(
+                2,
+                "0"
+            );
+
 
         const day =
             String(
                 date.getDate()
-            ).padStart(2, "0");
+            ).padStart(
+                2,
+                "0"
+            );
+
 
         return `${year}-${month}-${day}`;
 
     }
 
 
-    function formatDate(dateString) {
+    function formatDate(
+        dateString
+    ) {
 
         const date =
-            parseDate(dateString);
+            parseDate(
+                dateString
+            );
+
 
         return date.toLocaleDateString(
             "tr-TR",
@@ -665,12 +991,18 @@
     }
 
 
-    function getDayName(dateString) {
+    function getDayName(
+        dateString
+    ) {
 
         const date =
-            parseDate(dateString);
+            parseDate(
+                dateString
+            );
+
 
         const days = [
+
             "Pazar",
             "Pazartesi",
             "Salı",
@@ -678,11 +1010,16 @@
             "Perşembe",
             "Cuma",
             "Cumartesi"
+
         ];
 
-        return days[date.getDay()];
+
+        return days[
+            date.getDay()
+        ];
 
     }
+
 
 
     /* ==================================================
@@ -690,10 +1027,13 @@
        PAZARTESİ → PAZAR
     ================================================== */
 
-    function getMonday(date) {
+    function getMonday(
+        date
+    ) {
 
         const result =
             new Date(date);
+
 
         result.setHours(
             0,
@@ -702,27 +1042,35 @@
             0
         );
 
+
         const day =
             result.getDay();
+
 
         const difference =
             day === 0
                 ? -6
                 : 1 - day;
 
+
         result.setDate(
-            result.getDate() + difference
+            result.getDate() +
+            difference
         );
+
 
         return result;
 
     }
 
 
-    function getWeekRange(offset = 0) {
+    function getWeekRange(
+        offset = 0
+    ) {
 
         const today =
             new Date();
+
 
         today.setHours(
             0,
@@ -731,38 +1079,63 @@
             0
         );
 
+
         const monday =
-            getMonday(today);
+            getMonday(
+                today
+            );
+
 
         monday.setDate(
             monday.getDate() +
             offset * 7
         );
 
+
         const sunday =
-            new Date(monday);
+            new Date(
+                monday
+            );
+
 
         sunday.setDate(
             sunday.getDate() + 6
         );
 
+
         return {
-            start: dateToKey(monday),
-            end: dateToKey(sunday)
+
+            start:
+                dateToKey(
+                    monday
+                ),
+
+            end:
+                dateToKey(
+                    sunday
+                )
+
         };
 
     }
 
 
-    function formatWeekRange(range) {
+    function formatWeekRange(
+        range
+    ) {
 
         return `
-            ${formatDate(range.start)}
+            ${formatDate(
+                range.start
+            )}
             –
-            ${formatDate(range.end)}
+            ${formatDate(
+                range.end
+            )}
         `;
 
     }
+
 
 
     /* ==================================================
@@ -773,18 +1146,27 @@
 
         const email =
             document
-                .getElementById("email")
+                .getElementById(
+                    "email"
+                )
                 .value
                 .trim();
 
+
         const password =
             document
-                .getElementById("password")
+                .getElementById(
+                    "password"
+                )
                 .value;
+
 
         const error =
             document
-                .getElementById("loginError");
+                .getElementById(
+                    "loginError"
+                );
+
 
         error.textContent = "";
 
@@ -806,7 +1188,8 @@
             data,
             error: loginError
         } =
-            await supabaseClient.auth
+            await supabaseClient
+                .auth
                 .signInWithPassword({
                     email,
                     password
@@ -831,8 +1214,10 @@
 
         if (!isTeacher) {
 
-            await supabaseClient.auth
+            await supabaseClient
+                .auth
                 .signOut();
+
 
             error.textContent =
                 "Bu hesap öğretmen hesabı değil.";
@@ -847,11 +1232,14 @@
     }
 
 
+
     /* ==================================================
        ÖĞRETMEN KONTROLÜ
     ================================================== */
 
-    async function checkTeacher(user) {
+    async function checkTeacher(
+        user
+    ) {
 
         if (!user) {
             return false;
@@ -865,7 +1253,10 @@
             await supabaseClient
                 .from("profiles")
                 .select("role")
-                .eq("id", user.id)
+                .eq(
+                    "id",
+                    user.id
+                )
                 .maybeSingle();
 
 
@@ -873,13 +1264,19 @@
             error ||
             !data
         ) {
+
             return false;
+
         }
 
 
-        return data.role === "teacher";
+        return (
+            data.role ===
+            "teacher"
+        );
 
     }
+
 
 
     /* ==================================================
@@ -889,16 +1286,25 @@
     function showDashboard() {
 
         document
-            .getElementById("loginSection")
-            .style.display = "none";
+            .getElementById(
+                "loginSection"
+            )
+            .style.display =
+            "none";
+
 
         document
-            .getElementById("dashboard")
-            .style.display = "block";
+            .getElementById(
+                "dashboard"
+            )
+            .style.display =
+            "block";
+
 
         loadStudents();
 
     }
+
 
 
     /* ==================================================
@@ -907,37 +1313,53 @@
 
     async function logout() {
 
-        await supabaseClient.auth
+        await supabaseClient
+            .auth
             .signOut();
+
 
         openedStudentId = null;
 
 
         document
-            .getElementById("dashboard")
-            .style.display = "none";
+            .getElementById(
+                "dashboard"
+            )
+            .style.display =
+            "none";
 
 
         document
-            .getElementById("loginSection")
-            .style.display = "block";
+            .getElementById(
+                "loginSection"
+            )
+            .style.display =
+            "block";
 
 
         document
-            .getElementById("studentDetail")
-            .style.display = "none";
+            .getElementById(
+                "studentDetail"
+            )
+            .style.display =
+            "none";
 
 
         document
-            .getElementById("email")
+            .getElementById(
+                "email"
+            )
             .value = "";
 
 
         document
-            .getElementById("password")
+            .getElementById(
+                "password"
+            )
             .value = "";
 
     }
+
 
 
     /* ==================================================
@@ -975,20 +1397,25 @@
                 .order(
                     "full_name",
                     {
-                        ascending: true
+                        ascending:
+                            true
                     }
                 );
 
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                error
+            );
+
 
             container.innerHTML = `
                 <div class="empty">
                     Öğrenciler yüklenirken hata oluştu.
                 </div>
             `;
+
 
             return;
 
@@ -1006,6 +1433,7 @@
                 </div>
             `;
 
+
             return;
 
         }
@@ -1014,45 +1442,59 @@
         container.innerHTML = "";
 
 
-        data.forEach(student => {
+        data.forEach(
+            student => {
 
-            const card =
-                document.createElement(
-                    "div"
+                const card =
+                    document
+                        .createElement(
+                            "div"
+                        );
+
+
+                card.className =
+                    "student-card";
+
+
+                card.innerHTML = `
+
+                    <div class="student-name">
+
+                        ${escapeHtml(
+                            student.full_name
+                        )}
+
+                    </div>
+
+
+                    <div class="student-click">
+
+                        Detayları görmek için tıkla
+
+                    </div>
+
+                `;
+
+
+                card.addEventListener(
+                    "click",
+                    () =>
+                        toggleStudent(
+                            student,
+                            card
+                        )
                 );
 
-            card.className =
-                "student-card";
 
+                container.appendChild(
+                    card
+                );
 
-            card.innerHTML = `
-                <div class="student-name">
-                    ${escapeHtml(
-                        student.full_name
-                    )}
-                </div>
-
-                <div class="student-click">
-                    Detayları görmek için tıkla
-                </div>
-            `;
-
-
-            card.addEventListener(
-                "click",
-                () =>
-                    toggleStudent(
-                        student,
-                        card
-                    )
-            );
-
-
-            container.appendChild(card);
-
-        });
+            }
+        );
 
     }
+
 
 
     /* ==================================================
@@ -1080,11 +1522,15 @@
             detail.style.display =
                 "none";
 
+
             card.classList.remove(
                 "active"
             );
 
-            openedStudentId = null;
+
+            openedStudentId =
+                null;
+
 
             return;
 
@@ -1097,13 +1543,15 @@
             .querySelectorAll(
                 ".student-card"
             )
-            .forEach(item => {
+            .forEach(
+                item => {
 
-                item.classList.remove(
-                    "active"
-                );
+                    item.classList.remove(
+                        "active"
+                    );
 
-            });
+                }
+            );
 
 
         card.classList.add(
@@ -1120,29 +1568,48 @@
 
 
         detail.innerHTML = `
+
             <div class="detail-box">
 
                 <div class="loading">
+
                     ${escapeHtml(
                         student.full_name
                     )}
+
                     yükleniyor...
+
                 </div>
 
             </div>
+
         `;
 
 
-        await showStudent(student);
+        await showStudent(
+            student
+        );
 
-setTimeout(() => {
-    detail.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-}, 50);
+
+        /* Detay alanına otomatik kaydır */
+
+        setTimeout(
+            () => {
+
+                detail.scrollIntoView({
+                    behavior:
+                        "smooth",
+
+                    block:
+                        "start"
+                });
+
+            },
+            50
+        );
 
     }
+
 
 
     /* ==================================================
@@ -1165,6 +1632,7 @@ setTimeout(() => {
         ] =
             await Promise.all([
 
+
                 supabaseClient
                     .from(
                         "question_entries"
@@ -1184,15 +1652,18 @@ setTimeout(() => {
                     .order(
                         "date",
                         {
-                            ascending: false
+                            ascending:
+                                false
                         }
                     )
                     .order(
                         "created_at",
                         {
-                            ascending: true
+                            ascending:
+                                true
                         }
                     ),
+
 
                 supabaseClient
                     .from(
@@ -1211,7 +1682,8 @@ setTimeout(() => {
                     .order(
                         "date",
                         {
-                            ascending: false
+                            ascending:
+                                false
                         }
                     )
 
@@ -1241,11 +1713,13 @@ setTimeout(() => {
 
 
         const questions =
-            questionResult.data || [];
+            questionResult.data ||
+            [];
 
 
         const notes =
-            noteResult.data || [];
+            noteResult.data ||
+            [];
 
 
         renderStudent(
@@ -1257,8 +1731,9 @@ setTimeout(() => {
     }
 
 
+
     /* ==================================================
-       HAFTALIK TOPLAM HESAPLA
+       HAFTALIK TOPLAM
     ================================================== */
 
     function calculateWeekStats(
@@ -1277,7 +1752,9 @@ setTimeout(() => {
 
 
         let total = 0;
+
         let tyt = 0;
+
         let ayt = 0;
 
 
@@ -1325,6 +1802,7 @@ setTimeout(() => {
     }
 
 
+
     /* ==================================================
        HAFTA KARTI
     ================================================== */
@@ -1337,6 +1815,7 @@ setTimeout(() => {
     ) {
 
         return `
+
             <div class="
                 week-card
                 ${current ? "current" : ""}
@@ -1346,36 +1825,55 @@ setTimeout(() => {
                     ${title}
                 </h3>
 
+
                 <div class="week-range">
+
                     ${formatWeekRange(
                         range
                     )}
+
                 </div>
+
 
                 <div class="week-number">
+
                     ${stats.total}
+
                 </div>
 
+
                 <div class="week-label">
+
                     toplam soru
+
                 </div>
+
 
                 <div class="week-breakdown">
 
-                    <div class="mini-stat">
-                        TYT ${stats.tyt}
-                    </div>
 
                     <div class="mini-stat">
-                        AYT ${stats.ayt}
+
+                        TYT ${stats.tyt}
+
                     </div>
+
+
+                    <div class="mini-stat">
+
+                        AYT ${stats.ayt}
+
+                    </div>
+
 
                 </div>
 
             </div>
+
         `;
 
     }
+
 
 
     /* ==================================================
@@ -1398,8 +1896,11 @@ setTimeout(() => {
                 ) {
 
                     groups[item.date] = {
+
                         questions: [],
+
                         notes: []
+
                     };
 
                 }
@@ -1421,8 +1922,11 @@ setTimeout(() => {
                 ) {
 
                     groups[item.date] = {
+
                         questions: [],
+
                         notes: []
+
                     };
 
                 }
@@ -1441,6 +1945,7 @@ setTimeout(() => {
     }
 
 
+
     /* ==================================================
        GÜNLÜK TOPLAM
     ================================================== */
@@ -1450,7 +1955,10 @@ setTimeout(() => {
     ) {
 
         return questions.reduce(
-            (total, item) => {
+            (
+                total,
+                item
+            ) => {
 
                 return total +
                     (
@@ -1464,6 +1972,7 @@ setTimeout(() => {
         );
 
     }
+
 
 
     /* ==================================================
@@ -1482,23 +1991,41 @@ setTimeout(() => {
 
 
         let html = `
+
             <div class="day-block">
+
 
                 <div class="date-title">
 
+
                     <strong>
-                        ${formatDate(date)}
+
+                        ${formatDate(
+                            date
+                        )}
+
                     </strong>
 
+
                     <span>
-                        ${getDayName(date)}
+
+                        ${getDayName(
+                            date
+                        )}
+
                     </span>
 
+
                     <div class="daily-total">
-                        ${dailyTotal} soru
+
+                        ${dailyTotal}
+                        soru
+
                     </div>
 
+
                 </div>
+
         `;
 
 
@@ -1512,6 +2039,7 @@ setTimeout(() => {
                 item => {
 
                     html += `
+
                         <div class="question-line">
 
                             <span>
@@ -1527,9 +2055,11 @@ setTimeout(() => {
                                 <span
                                     class="question-count"
                                 >
+
                                     ${Number(
                                         item.question_count
                                     )}
+
                                 </span>
 
                                 soru
@@ -1537,12 +2067,14 @@ setTimeout(() => {
                             </span>
 
                         </div>
+
                     `;
 
                 }
             );
 
         }
+
 
 
         /* Notlar */
@@ -1555,19 +2087,26 @@ setTimeout(() => {
                 note => {
 
                     html += `
+
                         <div class="note-box">
+
 
                             <span
                                 class="note-label"
                             >
+
                                 Günün Notu
+
                             </span>
+
 
                             ${escapeHtml(
                                 note.note
                             )}
 
+
                         </div>
+
                     `;
 
                 }
@@ -1577,7 +2116,9 @@ setTimeout(() => {
 
 
         html += `
+
             </div>
+
         `;
 
 
@@ -1586,8 +2127,9 @@ setTimeout(() => {
     }
 
 
+
     /* ==================================================
-       BELİRLİ HAFTANIN TOPLAMINI BUL
+       BELİRLİ HAFTANIN TOPLAMI
     ================================================== */
 
     function getWeekTotalForDate(
@@ -1596,13 +2138,22 @@ setTimeout(() => {
     ) {
 
         const date =
-            parseDate(dateString);
+            parseDate(
+                dateString
+            );
+
 
         const monday =
-            getMonday(date);
+            getMonday(
+                date
+            );
+
 
         const sunday =
-            new Date(monday);
+            new Date(
+                monday
+            );
+
 
         sunday.setDate(
             sunday.getDate() + 6
@@ -1610,14 +2161,22 @@ setTimeout(() => {
 
 
         const start =
-            dateToKey(monday);
+            dateToKey(
+                monday
+            );
+
 
         const end =
-            dateToKey(sunday);
+            dateToKey(
+                sunday
+            );
 
 
         return questions.reduce(
-            (total, item) => {
+            (
+                total,
+                item
+            ) => {
 
                 if (
                     item.date >= start &&
@@ -1633,6 +2192,7 @@ setTimeout(() => {
 
                 }
 
+
                 return total;
 
             },
@@ -1642,8 +2202,9 @@ setTimeout(() => {
     }
 
 
+
     /* ==================================================
-       PAZAR / HAFTA DEĞİŞİMİ
+       HAFTA DEĞİŞİMİ
     ================================================== */
 
     function shouldAddWeekSeparator(
@@ -1652,10 +2213,15 @@ setTimeout(() => {
     ) {
 
         const current =
-            parseDate(currentDate);
+            parseDate(
+                currentDate
+            );
 
 
-        /* Pazar ise kesinlikle ayır */
+        /*
+         * Pazar gününde yeni haftayı
+         * onun ÜSTÜNDE göstereceğiz.
+         */
 
         if (
             current.getDay() === 0
@@ -1666,22 +2232,24 @@ setTimeout(() => {
         }
 
 
-        /*
-         * Arada veri olmayan günler olabilir.
-         * Sonraki kayıt başka haftadaysa
-         * yine ayır.
-         */
-
         if (nextDate) {
 
             const currentMonday =
-                getMonday(current);
+                getMonday(
+                    current
+                );
+
 
             const next =
-                parseDate(nextDate);
+                parseDate(
+                    nextDate
+                );
+
 
             const nextMonday =
-                getMonday(next);
+                getMonday(
+                    next
+                );
 
 
             return (
@@ -1701,35 +2269,67 @@ setTimeout(() => {
     }
 
 
+
     /* ==================================================
        HAFTA AYIRICI
     ================================================== */
 
     function createWeekSeparator(
-        nextDate,
+        date,
         questions
     ) {
 
-        const nextWeekTotal =
+        const weekTotal =
             getWeekTotalForDate(
-                nextDate,
+                date,
                 questions
             );
 
 
         return `
+
             <div class="week-separator">
 
-                <span>
-                    YENİ HAFTA
-                    ·
-                    ${nextWeekTotal} SORU
-                </span>
+
+                <div class="week-separator-content">
+
+
+                    <span
+                        class="week-separator-title"
+                    >
+
+                        ÖNCEKİ HAFTA
+
+                    </span>
+
+
+                    <span
+                        class="week-separator-dot"
+                    >
+
+                        ·
+
+                    </span>
+
+
+                    <span
+                        class="week-separator-count"
+                    >
+
+                        ${weekTotal} SORU
+
+                    </span>
+
+
+                </div>
+
 
             </div>
+
         `;
 
     }
+
 
 
     /* ==================================================
@@ -1751,13 +2351,17 @@ setTimeout(() => {
         /* Bu hafta */
 
         const currentWeek =
-            getWeekRange(0);
+            getWeekRange(
+                0
+            );
 
 
         /* Önceki hafta */
 
         const previousWeek =
-            getWeekRange(-1);
+            getWeekRange(
+                -1
+            );
 
 
         const currentStats =
@@ -1784,14 +2388,16 @@ setTimeout(() => {
 
 
         /*
-         * Kayıt bulunan bütün tarihler.
-         * Yeniden eskiye sıralanıyor.
+         * Bütün kayıtlı tarihler
+         * yeniden eskiye sıralanır.
          */
 
         const dates =
-            Object.keys(grouped)
-                .sort()
-                .reverse();
+            Object.keys(
+                grouped
+            )
+            .sort()
+            .reverse();
 
 
         let historyHtml = "";
@@ -1802,15 +2408,46 @@ setTimeout(() => {
         ) {
 
             historyHtml = `
+
                 <div class="empty">
-                    Henüz soru çözümü veya not kaydı yok.
+
+                    Henüz soru çözümü
+                    veya not kaydı yok.
+
                 </div>
+
             `;
 
         } else {
 
+
             dates.forEach(
-                (date, index) => {
+                (
+                    date,
+                    index
+                ) => {
+
+
+                    /*
+                     * Eğer gün Pazar ise
+                     * hafta ayracını Pazar'ın
+                     * ÜSTÜNE koy.
+                     */
+
+                    if (
+                        parseDate(
+                            date
+                        ).getDay() === 0
+                    ) {
+
+                        historyHtml +=
+                            createWeekSeparator(
+                                date,
+                                questions
+                            );
+
+                    }
+
 
                     /* Gün */
 
@@ -1822,26 +2459,32 @@ setTimeout(() => {
 
 
                     const nextDate =
-                        dates[index + 1];
+                        dates[
+                            index + 1
+                        ];
 
 
                     /*
-                     * Hafta değişimi
+                     * Pazar dışındaki
+                     * haftalık geçişler.
+                     *
+                     * Örneğin veri eksikse:
+                     * Çarşamba → önceki hafta
                      */
 
                     if (
+                        parseDate(
+                            date
+                        ).getDay() !== 0 &&
                         shouldAddWeekSeparator(
                             date,
                             nextDate
                         )
                     ) {
 
-                        /*
-                         * Bir sonraki kayıt varsa
-                         * onun haftasının toplamını göster.
-                         */
-
-                        if (nextDate) {
+                        if (
+                            nextDate
+                        ) {
 
                             historyHtml +=
                                 createWeekSeparator(
@@ -1859,6 +2502,7 @@ setTimeout(() => {
         }
 
 
+
         /* =========================
            EKRANA BAS
         ========================= */
@@ -1867,29 +2511,40 @@ setTimeout(() => {
 
             <div class="detail-box">
 
+
                 <div class="detail-header">
 
                     <h2>
+
                         ${escapeHtml(
                             student.full_name
                         )}
+
                     </h2>
 
+
                     <p>
+
                         Soru çözüm geçmişi
+
                     </p>
 
                 </div>
 
 
+
                 <!-- HAFTALIK ÖZET -->
 
                 <div class="week-title">
+
                     Haftalık Özet
+
                 </div>
 
 
+
                 <div class="week-stats">
+
 
                     ${createWeekCard(
                         "Bu Hafta",
@@ -1898,6 +2553,7 @@ setTimeout(() => {
                         true
                     )}
 
+
                     ${createWeekCard(
                         "Önceki Hafta",
                         previousWeek,
@@ -1905,25 +2561,34 @@ setTimeout(() => {
                         false
                     )}
 
+
                 </div>
+
 
 
                 <!-- TÜM GEÇMİŞ -->
 
                 <div class="history-title">
+
                     Soru Çözüm Geçmişi
+
                 </div>
+
 
 
                 <div>
+
                     ${historyHtml}
+
                 </div>
+
 
             </div>
 
         `;
 
     }
+
 
 
     /* ==================================================
@@ -1935,7 +2600,8 @@ setTimeout(() => {
         const {
             data
         } =
-            await supabaseClient.auth
+            await supabaseClient
+                .auth
                 .getSession();
 
 
@@ -1944,7 +2610,9 @@ setTimeout(() => {
 
 
         if (!session) {
+
             return;
+
         }
 
 
@@ -1960,7 +2628,8 @@ setTimeout(() => {
 
         } else {
 
-            await supabaseClient.auth
+            await supabaseClient
+                .auth
                 .signOut();
 
         }
@@ -1968,11 +2637,13 @@ setTimeout(() => {
     }
 
 
+
     /* ==================================================
        AUTH STATE
     ================================================== */
 
-    supabaseClient.auth
+    supabaseClient
+        .auth
         .onAuthStateChange(
             async (
                 event,
@@ -2005,11 +2676,13 @@ setTimeout(() => {
         );
 
 
+
     /* ==================================================
        BAŞLAT
     ================================================== */
 
     checkExistingSession();
+
 
 </script>
 
