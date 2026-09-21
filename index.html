@@ -9,9 +9,11 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#061a12">
-<link rel="apple-touch-icon" href="icon-192.png">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#061a12">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
     <title>12/A | Ders Çalışma Günlüğü</title>
 
 
@@ -57,6 +59,94 @@
                 );
 
             overflow-x: hidden;
+        }
+
+
+        /* =========================
+           UYGULAMAYI YÜKLE BUTONU
+        ========================= */
+
+        .install-app-btn {
+
+            position: absolute;
+
+            top: 18px;
+
+            right: 20px;
+
+            display: none;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 8px 13px;
+
+            border:
+                1px solid
+                rgba(105, 226, 151, .38);
+
+            border-radius: 999px;
+
+            background:
+                rgba(12, 76, 45, .58);
+
+            color: #bff5d2;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 11px;
+
+            letter-spacing: .4px;
+
+            cursor: pointer;
+
+            backdrop-filter: blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+
+            box-shadow:
+
+                0 5px 20px
+                rgba(0,0,0,.18),
+
+                inset 0 0 15px
+                rgba(70,210,130,.05);
+
+            transition: .25s ease;
+
+            z-index: 20;
+        }
+
+
+        .install-app-btn:hover {
+
+            background:
+                rgba(22, 105, 61, .75);
+
+            border-color:
+                rgba(120, 235, 164, .70);
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+
+                0 7px 24px
+                rgba(0,0,0,.25),
+
+                0 0 18px
+                rgba(70,210,130,.10);
+        }
+
+
+        .install-app-btn span:first-child {
+
+            font-size: 13px;
         }
 
 
@@ -802,12 +892,46 @@
             }
         }
 
+
+        @media (max-width: 500px) {
+
+            .install-app-btn {
+
+                top: 12px;
+
+                right: 12px;
+
+                padding: 7px 10px;
+
+                font-size: 10px;
+            }
+        }
+
     </style>
 
 </head>
 
 
 <body>
+
+
+<!-- =========================
+     UYGULAMAYI YÜKLE
+========================= -->
+
+<button
+    id="installAppBtn"
+    class="install-app-btn"
+    type="button"
+>
+
+    <span>📱</span>
+
+    <span>
+        Uygulamayı Yükle
+    </span>
+
+</button>
 
 
 <main class="container">
@@ -946,19 +1070,114 @@
 
 </main>
 
+
+<!-- =========================
+     SERVICE WORKER
+========================= -->
+
 <script>
+
 if ("serviceWorker" in navigator) {
+
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js")
+
+        navigator.serviceWorker
+            .register("./sw.js")
+
             .then(() => {
-                console.log("12/A uygulama sistemi hazır.");
+
+                console.log(
+                    "12/A uygulama sistemi hazır."
+                );
+
             })
+
             .catch(error => {
-                console.error("Service Worker hatası:", error);
+
+                console.error(
+                    "Service Worker hatası:",
+                    error
+                );
+
             });
+
     });
+
 }
+
+
 </script>
+
+
+<!-- =========================
+     UYGULAMA YÜKLEME SİSTEMİ
+========================= -->
+
+<script>
+
+let deferredInstallPrompt = null;
+
+const installAppBtn =
+    document.getElementById("installAppBtn");
+
+
+window.addEventListener(
+    "beforeinstallprompt",
+    (event) => {
+
+        event.preventDefault();
+
+        deferredInstallPrompt = event;
+
+        installAppBtn.style.display = "flex";
+
+    }
+);
+
+
+installAppBtn.addEventListener(
+    "click",
+    async () => {
+
+        if (!deferredInstallPrompt) {
+
+            return;
+
+        }
+
+
+        deferredInstallPrompt.prompt();
+
+
+        const { outcome } =
+            await deferredInstallPrompt.userChoice;
+
+
+        if (outcome === "accepted") {
+
+            installAppBtn.style.display = "none";
+
+        }
+
+
+        deferredInstallPrompt = null;
+
+    }
+);
+
+
+window.addEventListener(
+    "appinstalled",
+    () => {
+
+        installAppBtn.style.display = "none";
+
+    }
+);
+
+</script>
+
+
 </body>
 
 </html>
