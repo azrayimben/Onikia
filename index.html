@@ -9,7 +9,9 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
-
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#061a12">
+<link rel="apple-touch-icon" href="icon-192.png">
     <title>12/A | Ders Çalışma Günlüğü</title>
 
 
@@ -944,7 +946,19 @@
 
 </main>
 
-
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+            .then(() => {
+                console.log("12/A uygulama sistemi hazır.");
+            })
+            .catch(error => {
+                console.error("Service Worker hatası:", error);
+            });
+    });
+}
+</script>
 </body>
 
 </html>

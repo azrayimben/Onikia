@@ -1,0 +1,16 @@
+{
+      "name": "12/A Soru Takip",
+        "short_name": "12/A",
+          "start_url": "./index.html",
+            "display": "standalone",
+              "background_color": "#061a12",
+                "theme_color": "#061a12",
+                  "description": "12/A soru çözüm takip sistemi",
+                    "icons": [
+                        {
+                              "src": "./icon-192.png",
+                                    "sizes": "192x192",
+                                          "type": "image/png"
+                                              }
+                                                ]
+                                                }
