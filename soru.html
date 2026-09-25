@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
 
     <meta charset="UTF-8">
@@ -8,6 +9,9 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#061a12">
 
     <title>12/A | Soru Günlüğü</title>
 
@@ -1101,7 +1105,7 @@
                 "
             >
                 Adını, e-postanı ve şifreni girerek
-                öğrenci hesabını oluştur.
+                hesabını oluştur.
             </p>
 
 
@@ -1499,767 +1503,612 @@
 <script>
 
 
-    /* =====================================
-       SUPABASE
-    ===================================== */
+/* =====================================
+   SUPABASE
+===================================== */
 
 
-    const SUPABASE_URL =
-        "https://uisyeukqtsbpdfracydn.supabase.co";
+const SUPABASE_URL =
+    "https://uisyeukqtsbpdfracydn.supabase.co";
 
 
-    const SUPABASE_KEY =
-        "sb_publishable_t8PW6J6Tdf5f5ueIKC1kng_qq3Hc-77";
+const SUPABASE_KEY =
+    "sb_publishable_t8PW6J6Tdf5f5ueIKC1kng_qq3Hc-77";
 
 
-    const supabaseClient =
-        supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================
+   AYARLAR
+===================================== */
+
+
+const DAILY_GOAL = 500;
+
+let questionEntries = [];
+
+let dailyNotes = [];
+
+
+/* =====================================
+   BUGÜN
+===================================== */
+
+
+document.getElementById(
+    "questionDate"
+).value =
+    new Date()
+        .toISOString()
+        .split("T")[0];
+
+
+/* =====================================
+   ROL KONTROLÜ
+===================================== */
+
+async function getUserRole(userId) {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("profiles")
+            .select("role")
+            .eq("id", userId)
+            .single();
+
+
+    if (error) {
+
+        console.error(
+            "Rol alınamadı:",
+            error
         );
 
-
-    /* =====================================
-       AYARLAR
-    ===================================== */
+        return null;
+    }
 
 
-    const DAILY_GOAL = 500;
+    return data.role;
+
+}
 
 
-    let questionEntries = [];
+/* =====================================
+   GİRİŞ / KAYIT EKRANLARI
+===================================== */
 
 
-    let dailyNotes = [];
+function showRegister() {
 
-
-    /* =====================================
-       BUGÜN
-    ===================================== */
+    document.getElementById(
+        "loginForm"
+    ).style.display = "none";
 
 
     document.getElementById(
-        "questionDate"
-    ).value =
-        new Date()
-            .toISOString()
-            .split("T")[0];
+        "registerForm"
+    ).style.display = "block";
+
+}
 
 
-    /* =====================================
-       GİRİŞ / KAYIT EKRANLARI
-    ===================================== */
+function showLogin() {
+
+    document.getElementById(
+        "registerForm"
+    ).style.display = "none";
 
 
-    function showRegister() {
+    document.getElementById(
+        "loginForm"
+    ).style.display = "block";
 
+}
+
+
+/* =====================================
+   KAYIT OL
+===================================== */
+
+
+async function register() {
+
+    const name =
         document.getElementById(
-            "loginForm"
-        ).style.display = "none";
+            "registerName"
+        ).value.trim();
 
 
+    const email =
         document.getElementById(
-            "registerForm"
-        ).style.display = "block";
+            "registerEmail"
+        ).value.trim();
 
+
+    const password =
+        document.getElementById(
+            "registerPassword"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "registerMessage"
+        );
+
+
+    message.style.color = "#efb1bd";
+
+    message.textContent = "";
+
+
+    if (!name) {
+
+        message.textContent =
+            "Lütfen ad soyadını gir.";
+
+        return;
     }
 
 
-    function showLogin() {
+    if (!email) {
 
-        document.getElementById(
-            "registerForm"
-        ).style.display = "none";
+        message.textContent =
+            "Lütfen e-posta adresini gir.";
 
-
-        document.getElementById(
-            "loginForm"
-        ).style.display = "block";
-
+        return;
     }
 
 
-    /* =====================================
-       KAYIT OL
-    ===================================== */
+    if (!password) {
 
+        message.textContent =
+            "Lütfen bir şifre oluştur.";
 
-    async function register() {
-
-        const name =
-            document.getElementById(
-                "registerName"
-            ).value.trim();
-
-
-        const email =
-            document.getElementById(
-                "registerEmail"
-            ).value.trim();
-
-
-        const password =
-            document.getElementById(
-                "registerPassword"
-            ).value;
-
-
-        const message =
-            document.getElementById(
-                "registerMessage"
-            );
-
-
-        message.textContent = "";
-
-
-        if (!name) {
-
-            message.textContent =
-                "Lütfen ad soyadını gir.";
-
-            return;
-
-        }
-
-
-        if (!email) {
-
-            message.textContent =
-                "Lütfen e-posta adresini gir.";
-
-            return;
-
-        }
-
-
-        if (!password) {
-
-            message.textContent =
-                "Lütfen bir şifre oluştur.";
-
-            return;
-
-        }
-
-
-        if (password.length < 6) {
-
-            message.textContent =
-                "Şifre en az 6 karakter olmalı.";
-
-            return;
-
-        }
-
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient.auth
-                .signUp({
-
-                    email: email,
-
-                    password: password,
-
-                    options: {
-
-                        data: {
-
-                            full_name: name
-
-                        }
-
-                    }
-
-                });
-
-
-        if (error) {
-
-            message.textContent =
-                "Kayıt başarısız: " +
-                error.message;
-
-            console.error(error);
-
-            return;
-
-        }
-
-
-        /*
-            Email confirmation kapalı olduğu için
-            normalde session oluşur ve kullanıcı
-            direkt giriş yapmış olur.
-        */
-
-
-        if (data.session) {
-
-            message.style.color =
-                "#75e3a0";
-
-            message.textContent =
-                "Kayıt başarılı! Hoş geldin " +
-                name +
-                ".";
-
-
-            showApp(data.user);
-
-            await loadQuestions();
-
-        } else {
-
-            message.style.color =
-                "#75e3a0";
-
-            message.textContent =
-                "Kayıt başarılı. Şimdi giriş yapabilirsin.";
-
-            showLogin();
-
-        }
-
+        return;
     }
 
 
-    /* =====================================
-       GİRİŞ
-    ===================================== */
+    if (password.length < 6) {
 
+        message.textContent =
+            "Şifre en az 6 karakter olmalı.";
 
-    async function login() {
-
-        const email =
-            document.getElementById(
-                "loginEmail"
-            ).value.trim();
-
-
-        const password =
-            document.getElementById(
-                "loginPassword"
-            ).value;
-
-
-        const message =
-            document.getElementById(
-                "loginMessage"
-            );
-
-
-        message.textContent = "";
-
-
-        if (!email || !password) {
-
-            message.textContent =
-                "E-posta ve şifreyi gir.";
-
-            return;
-
-        }
-
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient.auth
-                .signInWithPassword({
-
-                    email: email,
-
-                    password: password
-
-                });
-
-
-        if (error) {
-
-            message.textContent =
-                "Giriş başarısız: " +
-                error.message;
-
-            return;
-
-        }
-
-
-        showApp(data.user);
-
-        await loadQuestions();
-
+        return;
     }
 
 
-    /* =====================================
-       ÇIKIŞ
-    ===================================== */
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth.signUp({
 
+            email: email,
 
-    async function logout() {
+            password: password,
 
-        await supabaseClient.auth.signOut();
+            options: {
 
+                data: {
 
-        document.getElementById(
-            "appContent"
-        ).style.display = "none";
+                    full_name: name
 
-
-        document.getElementById(
-            "loginPanel"
-        ).style.display = "block";
-
-
-        showLogin();
-
-    }
-
-
-    /* =====================================
-       UYGULAMAYI GÖSTER
-    ===================================== */
-
-
-    function showApp(user) {
-
-        document.getElementById(
-            "loginPanel"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "appContent"
-        ).style.display = "block";
-
-    }
-
-
-    /* =====================================
-       SORULAR + NOTLARI ÇEK
-    ===================================== */
-
-
-    async function loadQuestions() {
-
-
-        const {
-            data: questionData,
-            error: questionError
-        } =
-            await supabaseClient
-                .from("question_entries")
-                .select("*")
-                .order(
-                    "date",
-                    {
-                        ascending: false
-                    }
-                );
-
-
-        if (questionError) {
-
-            alert(
-                "Kayıtlar alınamadı: " +
-                questionError.message
-            );
-
-            console.error(questionError);
-
-            return;
-
-        }
-
-
-        questionEntries =
-            questionData.map(
-                entry => ({
-
-                    id: entry.id,
-
-                    date: entry.date,
-
-                    type: entry.exam_type,
-
-                    subject: entry.subject,
-
-                    count: entry.question_count
-
-                })
-            );
-
-
-        const {
-            data: noteData,
-            error: noteError
-        } =
-            await supabaseClient
-                .from("daily_notes")
-                .select("*")
-                .order(
-                    "date",
-                    {
-                        ascending: false
-                    }
-                );
-
-
-        if (noteError) {
-
-            alert(
-                "Notlar alınamadı: " +
-                noteError.message
-            );
-
-            console.error(noteError);
-
-            return;
-
-        }
-
-
-        dailyNotes =
-            noteData.map(
-                note => ({
-
-                    id: note.id,
-
-                    date: note.date,
-
-                    note: note.note
-
-                })
-            );
-
-
-        renderAll();
-
-    }
-
-
-    /* =====================================
-       SORU EKLE
-    ===================================== */
-
-
-    async function addQuestions() {
-
-        const date =
-            document.getElementById(
-                "questionDate"
-            ).value;
-
-
-        const type =
-            document.getElementById(
-                "examType"
-            ).value;
-
-
-        const subject =
-            document.getElementById(
-                "subject"
-            ).value;
-
-
-        const count =
-            Number(
-                document.getElementById(
-                    "questionCount"
-                ).value
-            );
-
-
-        if (!date) {
-
-            alert(
-                "Lütfen tarihi seç."
-            );
-
-            return;
-
-        }
-
-
-        if (!count || count <= 0) {
-
-            alert(
-                "Lütfen çözdüğün soru sayısını gir."
-            );
-
-            return;
-
-        }
-
-
-        const {
-            data: {
-                user
-            }
-        } =
-            await supabaseClient.auth
-                .getUser();
-
-
-        if (!user) {
-
-            alert(
-                "Önce giriş yapmalısın."
-            );
-
-            return;
-
-        }
-
-
-        const existing =
-            questionEntries.find(
-                entry =>
-                    entry.date === date &&
-                    entry.type === type &&
-                    entry.subject === subject
-            );
-
-
-        if (existing) {
-
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from(
-                        "question_entries"
-                    )
-                    .update({
-
-                        question_count:
-                            existing.count +
-                            count
-
-                    })
-                    .eq(
-                        "id",
-                        existing.id
-                    );
-
-
-            if (error) {
-
-                alert(
-                    "Kayıt güncellenemedi: " +
-                    error.message
-                );
-
-                return;
+                }
 
             }
 
-
-        } else {
-
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from(
-                        "question_entries"
-                    )
-                    .insert({
-
-                        user_id: user.id,
-
-                        date: date,
-
-                        exam_type: type,
-
-                        subject: subject,
-
-                        question_count: count
-
-                    });
+        });
 
 
-            if (error) {
+    if (error) {
 
-                alert(
-                    "Kayıt eklenemedi: " +
-                    error.message
-                );
+        message.textContent =
+            "Kayıt başarısız: " +
+            error.message;
 
-                return;
+        console.error(error);
 
-            }
-
-        }
-
-
-        document.getElementById(
-            "questionCount"
-        ).value = "";
-
-
-        await loadQuestions();
-
+        return;
     }
 
 
-    /* =====================================
-       GÜNLÜK NOT
-    ===================================== */
+    if (!data.user) {
 
+        message.textContent =
+            "Kullanıcı oluşturulamadı.";
 
-    async function saveDailyNote() {
-
-        const date =
-            document.getElementById(
-                "questionDate"
-            ).value;
-
-
-        const note =
-            document.getElementById(
-                "dailyNote"
-            ).value.trim();
-
-
-        if (!date) {
-
-            alert(
-                "Lütfen tarihi seç."
-            );
-
-            return;
-
-        }
-
-
-        if (!note) {
-
-            alert(
-                "Lütfen bir not yaz."
-            );
-
-            return;
-
-        }
-
-
-        const {
-            data: {
-                user
-            }
-        } =
-            await supabaseClient.auth
-                .getUser();
-
-
-        if (!user) {
-
-            alert(
-                "Önce giriş yapmalısın."
-            );
-
-            return;
-
-        }
-
-
-        const {
-            error
-        } =
-            await supabaseClient
-                .from("daily_notes")
-                .upsert(
-
-                    {
-
-                        user_id: user.id,
-
-                        date: date,
-
-                        note: note,
-
-                        updated_at:
-                            new Date()
-                                .toISOString()
-
-                    },
-
-                    {
-
-                        onConflict:
-                            "user_id,date"
-
-                    }
-
-                );
-
-
-        if (error) {
-
-            alert(
-                "Not kaydedilemedi: " +
-                error.message
-            );
-
-            return;
-
-        }
-
-
-        document.getElementById(
-            "dailyNote"
-        ).value = "";
-
-
-        await loadQuestions();
-
+        return;
     }
 
 
-    /* =====================================
-       SORU SİL
-    ===================================== */
+    /*
+       Trigger'ın profiles kaydını
+       oluşturması için kısa bekleme.
+    */
+
+    await new Promise(
+        resolve =>
+            setTimeout(resolve, 700)
+    );
 
 
-    async function deleteEntry(id) {
+    const role =
+        await getUserRole(
+            data.user.id
+        );
 
-        const entry =
-            questionEntries.find(
-                item =>
-                    item.id === id
+
+    if (!role) {
+
+        message.textContent =
+            "Hesap oluşturuldu fakat kullanıcı rolü alınamadı.";
+
+        return;
+    }
+
+
+    /*
+       ÖĞRETMEN
+    */
+
+    if (role === "teacher") {
+
+        window.location.replace(
+            "goruntule.html"
+        );
+
+        return;
+    }
+
+
+    /*
+       ÖĞRENCİ
+    */
+
+    window.location.replace(
+        "soru.html"
+    );
+
+}
+
+
+/* =====================================
+   GİRİŞ
+===================================== */
+
+
+async function login() {
+
+    const email =
+        document.getElementById(
+            "loginEmail"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "loginMessage"
+        );
+
+
+    message.textContent = "";
+
+
+    if (!email || !password) {
+
+        message.textContent =
+            "E-posta ve şifreyi gir.";
+
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth
+            .signInWithPassword({
+
+                email: email,
+
+                password: password
+
+            });
+
+
+    if (error) {
+
+        message.textContent =
+            "Giriş başarısız: " +
+            error.message;
+
+        return;
+    }
+
+
+    const role =
+        await getUserRole(
+            data.user.id
+        );
+
+
+    if (!role) {
+
+        message.textContent =
+            "Kullanıcı rolü alınamadı.";
+
+        return;
+    }
+
+
+    /*
+       ÖĞRETMEN
+    */
+
+    if (role === "teacher") {
+
+        window.location.replace(
+            "goruntule.html"
+        );
+
+        return;
+    }
+
+
+    /*
+       ÖĞRENCİ
+    */
+
+    showApp(data.user);
+
+    await loadQuestions();
+
+}
+
+
+/* =====================================
+   ÇIKIŞ
+===================================== */
+
+
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+
+    document.getElementById(
+        "appContent"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "loginPanel"
+    ).style.display = "block";
+
+
+    showLogin();
+
+}
+
+
+/* =====================================
+   UYGULAMAYI GÖSTER
+===================================== */
+
+
+function showApp(user) {
+
+    document.getElementById(
+        "loginPanel"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "appContent"
+    ).style.display = "block";
+
+}
+
+
+/* =====================================
+   SORULAR + NOTLARI ÇEK
+===================================== */
+
+
+async function loadQuestions() {
+
+
+    const {
+        data: questionData,
+        error: questionError
+    } =
+        await supabaseClient
+            .from("question_entries")
+            .select("*")
+            .order(
+                "date",
+                {
+                    ascending: false
+                }
             );
 
 
-        if (!entry)
-            return;
+    if (questionError) {
+
+        alert(
+            "Kayıtlar alınamadı: " +
+            questionError.message
+        );
+
+        console.error(questionError);
+
+        return;
+    }
 
 
-        const confirmation =
-            confirm(
+    questionEntries =
+        questionData.map(
+            entry => ({
 
-                entry.date +
-                " tarihindeki " +
-                entry.type +
-                " " +
-                entry.subject +
-                " kaydını silmek istiyor musun?"
+                id: entry.id,
 
+                date: entry.date,
+
+                type: entry.exam_type,
+
+                subject: entry.subject,
+
+                count: entry.question_count
+
+            })
+        );
+
+
+    const {
+        data: noteData,
+        error: noteError
+    } =
+        await supabaseClient
+            .from("daily_notes")
+            .select("*")
+            .order(
+                "date",
+                {
+                    ascending: false
+                }
             );
 
 
-        if (!confirmation)
-            return;
+    if (noteError) {
 
+        alert(
+            "Notlar alınamadı: " +
+            noteError.message
+        );
+
+        console.error(noteError);
+
+        return;
+    }
+
+
+    dailyNotes =
+        noteData.map(
+            note => ({
+
+                id: note.id,
+
+                date: note.date,
+
+                note: note.note
+
+            })
+        );
+
+
+    renderAll();
+
+}
+
+
+/* =====================================
+   SORU EKLE
+===================================== */
+
+
+async function addQuestions() {
+
+    const date =
+        document.getElementById(
+            "questionDate"
+        ).value;
+
+
+    const type =
+        document.getElementById(
+            "examType"
+        ).value;
+
+
+    const subject =
+        document.getElementById(
+            "subject"
+        ).value;
+
+
+    const count =
+        Number(
+            document.getElementById(
+                "questionCount"
+            ).value
+        );
+
+
+    if (!date) {
+
+        alert(
+            "Lütfen tarihi seç."
+        );
+
+        return;
+    }
+
+
+    if (!count || count <= 0) {
+
+        alert(
+            "Lütfen çözdüğün soru sayısını gir."
+        );
+
+        return;
+    }
+
+
+    const {
+        data: {
+            user
+        }
+    } =
+        await supabaseClient.auth
+            .getUser();
+
+
+    if (!user) {
+
+        alert(
+            "Önce giriş yapmalısın."
+        );
+
+        return;
+    }
+
+
+    const existing =
+        questionEntries.find(
+            entry =>
+                entry.date === date &&
+                entry.type === type &&
+                entry.subject === subject
+        );
+
+
+    if (existing) {
 
         const {
             error
@@ -2268,407 +2117,643 @@
                 .from(
                     "question_entries"
                 )
-                .delete()
+                .update({
+
+                    question_count:
+                        existing.count +
+                        count
+
+                })
                 .eq(
                     "id",
-                    id
+                    existing.id
                 );
 
 
         if (error) {
 
             alert(
-                "Kayıt silinemedi: " +
+                "Kayıt güncellenemedi: " +
                 error.message
             );
 
             return;
-
         }
 
 
-        await loadQuestions();
-
-    }
-
-
-    /* =====================================
-       NOT SİL
-    ===================================== */
-
-
-    async function deleteDailyNote(id) {
-
-        const confirmation =
-            confirm(
-                "Bu günlük notunu silmek istiyor musun?"
-            );
-
-
-        if (!confirmation)
-            return;
-
+    } else {
 
         const {
             error
         } =
             await supabaseClient
-                .from("daily_notes")
-                .delete()
-                .eq(
-                    "id",
-                    id
-                );
+                .from(
+                    "question_entries"
+                )
+                .insert({
+
+                    user_id: user.id,
+
+                    date: date,
+
+                    exam_type: type,
+
+                    subject: subject,
+
+                    question_count: count
+
+                });
 
 
         if (error) {
 
             alert(
-                "Not silinemedi: " +
+                "Kayıt eklenemedi: " +
                 error.message
             );
 
             return;
-
         }
 
-
-        await loadQuestions();
-
     }
 
 
-    /* =====================================
-       HTML GÜVENLİĞİ
-    ===================================== */
+    document.getElementById(
+        "questionCount"
+    ).value = "";
 
 
-    function escapeHTML(text) {
+    await loadQuestions();
 
-        const div =
-            document.createElement("div");
+}
 
-        div.textContent = text;
 
-        return div.innerHTML;
+/* =====================================
+   GÜNLÜK NOT
+===================================== */
 
+
+async function saveDailyNote() {
+
+    const date =
+        document.getElementById(
+            "questionDate"
+        ).value;
+
+
+    const note =
+        document.getElementById(
+            "dailyNote"
+        ).value.trim();
+
+
+    if (!date) {
+
+        alert(
+            "Lütfen tarihi seç."
+        );
+
+        return;
     }
 
 
-    /* =====================================
-       GÜNLER
-    ===================================== */
+    if (!note) {
+
+        alert(
+            "Lütfen bir not yaz."
+        );
+
+        return;
+    }
 
 
-    function renderDays() {
+    const {
+        data: {
+            user
+        }
+    } =
+        await supabaseClient.auth
+            .getUser();
 
-        const container =
-            document.getElementById(
-                "daysContainer"
+
+    if (!user) {
+
+        alert(
+            "Önce giriş yapmalısın."
+        );
+
+        return;
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("daily_notes")
+            .upsert(
+
+                {
+
+                    user_id: user.id,
+
+                    date: date,
+
+                    note: note,
+
+                    updated_at:
+                        new Date()
+                            .toISOString()
+
+                },
+
+                {
+
+                    onConflict:
+                        "user_id,date"
+
+                }
+
             );
 
 
-        container.innerHTML = "";
+    if (error) {
+
+        alert(
+            "Not kaydedilemedi: " +
+            error.message
+        );
+
+        return;
+    }
 
 
-        const dates =
-            [
+    document.getElementById(
+        "dailyNote"
+    ).value = "";
 
-                ...new Set([
 
-                    ...questionEntries.map(
-                        entry =>
-                            entry.date
-                    ),
+    await loadQuestions();
 
-                    ...dailyNotes.map(
-                        note =>
-                            note.date
-                    )
+}
 
-                ])
 
-            ]
-            .sort(
-                (a, b) =>
-                    new Date(b) -
-                    new Date(a)
+/* =====================================
+   SORU SİL
+===================================== */
+
+
+async function deleteEntry(id) {
+
+    const entry =
+        questionEntries.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!entry)
+        return;
+
+
+    const confirmation =
+        confirm(
+
+            entry.date +
+            " tarihindeki " +
+            entry.type +
+            " " +
+            entry.subject +
+            " kaydını silmek istiyor musun?"
+
+        );
+
+
+    if (!confirmation)
+        return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from(
+                "question_entries"
+            )
+            .delete()
+            .eq(
+                "id",
+                id
             );
 
 
-        if (dates.length === 0) {
+    if (error) {
 
-            container.innerHTML = `
+        alert(
+            "Kayıt silinemedi: " +
+            error.message
+        );
 
-                <div class="empty">
+        return;
+    }
 
-                    <div class="empty-icon">
-                        📚
-                    </div>
 
-                    <p>
-                        Henüz soru veya günlük notu yok.
-                        <br>
-                        İlk kaydını yukarıdan ekle!
-                    </p>
+    await loadQuestions();
 
+}
+
+
+/* =====================================
+   NOT SİL
+===================================== */
+
+
+async function deleteDailyNote(id) {
+
+    const confirmation =
+        confirm(
+            "Bu günlük notunu silmek istiyor musun?"
+        );
+
+
+    if (!confirmation)
+        return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("daily_notes")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
+
+
+    if (error) {
+
+        alert(
+            "Not silinemedi: " +
+            error.message
+        );
+
+        return;
+    }
+
+
+    await loadQuestions();
+
+}
+
+
+/* =====================================
+   HTML GÜVENLİĞİ
+===================================== */
+
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================
+   GÜNLER
+===================================== */
+
+
+function renderDays() {
+
+    const container =
+        document.getElementById(
+            "daysContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const dates =
+        [
+
+            ...new Set([
+
+                ...questionEntries.map(
+                    entry =>
+                        entry.date
+                ),
+
+                ...dailyNotes.map(
+                    note =>
+                        note.date
+                )
+
+            ])
+
+        ]
+        .sort(
+            (a, b) =>
+                new Date(b) -
+                new Date(a)
+        );
+
+
+    if (dates.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📚
                 </div>
 
-            `;
+                <p>
+                    Henüz soru veya günlük notu yok.
+                    <br>
+                    İlk kaydını yukarıdan ekle!
+                </p>
 
+            </div>
 
-            document.getElementById(
-                "dayCount"
-            ).textContent =
-                "0 gün";
-
-
-            return;
-
-        }
+        `;
 
 
         document.getElementById(
             "dayCount"
         ).textContent =
-            dates.length +
-            " gün";
+            "0 gün";
 
 
-        dates.forEach(
-            date => {
+        return;
+    }
 
 
-                const entries =
-                    questionEntries.filter(
-                        entry =>
-                            entry.date === date
-                    );
+    document.getElementById(
+        "dayCount"
+    ).textContent =
+        dates.length +
+        " gün";
 
 
-                const total =
-                    entries.reduce(
-                        (
-                            sum,
-                            entry
-                        ) =>
-                            sum +
-                            entry.count,
-                        0
-                    );
+    dates.forEach(
+        date => {
 
 
-                const dayNote =
-                    dailyNotes.find(
-                        note =>
-                            note.date === date
-                    );
+            const entries =
+                questionEntries.filter(
+                    entry =>
+                        entry.date === date
+                );
 
 
-                const formattedDate =
-                    new Date(
-                        date +
-                        "T00:00:00"
-                    ).toLocaleDateString(
-                        "tr-TR",
-                        {
-
-                            weekday:
-                                "long",
-
-                            day:
-                                "numeric",
-
-                            month:
-                                "long",
-
-                            year:
-                                "numeric"
-
-                        }
-                    );
+            const total =
+                entries.reduce(
+                    (
+                        sum,
+                        entry
+                    ) =>
+                        sum +
+                        entry.count,
+                    0
+                );
 
 
-                let noteHTML = "";
+            const dayNote =
+                dailyNotes.find(
+                    note =>
+                        note.date === date
+                );
 
 
-                if (dayNote) {
+            const formattedDate =
+                new Date(
+                    date +
+                    "T00:00:00"
+                ).toLocaleDateString(
+                    "tr-TR",
+                    {
 
-                    noteHTML = `
+                        weekday:
+                            "long",
 
-                        <div class="note-box">
+                        day:
+                            "numeric",
 
-                            <div class="note-header">
+                        month:
+                            "long",
 
-                                <span class="note-title">
-                                    📝 GÜNLÜK NOT
+                        year:
+                            "numeric"
+
+                    }
+                );
+
+
+            let noteHTML = "";
+
+
+            if (dayNote) {
+
+                noteHTML = `
+
+                    <div class="note-box">
+
+                        <div class="note-header">
+
+                            <span class="note-title">
+                                📝 GÜNLÜK NOT
+                            </span>
+
+                            <button
+                                class="note-delete"
+                                onclick="deleteDailyNote(${dayNote.id})"
+                                title="Notu sil"
+                            >
+                                🗑
+                            </button>
+
+                        </div>
+
+                        <div class="note-text">
+                            ${escapeHTML(dayNote.note)}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            let subjectHTML = "";
+
+
+            entries.forEach(
+                entry => {
+
+                    subjectHTML += `
+
+                        <div class="subject-row">
+
+                            <div class="subject-left">
+
+                                <span class="exam-badge">
+                                    ${entry.type}
+                                </span>
+
+                                <span class="subject-name">
+                                    ${entry.subject}
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <span class="question-count">
+                                    ${entry.count} soru
                                 </span>
 
                                 <button
-                                    class="note-delete"
-                                    onclick="deleteDailyNote(${dayNote.id})"
-                                    title="Notu sil"
+                                    class="delete-entry"
+                                    onclick="deleteEntry(${entry.id})"
+                                    title="Bu kaydı sil"
                                 >
                                     🗑
                                 </button>
 
                             </div>
 
-                            <div class="note-text">
-                                ${escapeHTML(dayNote.note)}
-                            </div>
-
                         </div>
 
                     `;
 
                 }
+            );
 
 
-                let subjectHTML = "";
+            if (entries.length === 0) {
 
+                subjectHTML = `
 
-                entries.forEach(
-                    entry => {
-
-                        subjectHTML += `
-
-                            <div class="subject-row">
-
-                                <div class="subject-left">
-
-                                    <span class="exam-badge">
-                                        ${entry.type}
-                                    </span>
-
-                                    <span class="subject-name">
-                                        ${entry.subject}
-                                    </span>
-
-                                </div>
-
-                                <div>
-
-                                    <span class="question-count">
-                                        ${entry.count} soru
-                                    </span>
-
-                                    <button
-                                        class="delete-entry"
-                                        onclick="deleteEntry(${entry.id})"
-                                        title="Bu kaydı sil"
-                                    >
-                                        🗑
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        `;
-
-                    }
-                );
-
-
-                if (entries.length === 0) {
-
-                    subjectHTML = `
-
-                        <div class="no-questions">
-                            Bu gün soru kaydı yok.
-                        </div>
-
-                    `;
-
-                }
-
-
-                container.innerHTML += `
-
-                    <article class="day-card">
-
-                        <div
-                            class="day-header"
-                            onclick="toggleDay(this)"
-                        >
-
-                            <div class="day-date">
-                                ${formattedDate}
-                            </div>
-
-                            <div class="day-total">
-
-                                <span class="day-total-number">
-                                    ${total}
-                                </span>
-
-                                <span class="day-total-label">
-                                    SORU
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="day-content">
-
-                            ${noteHTML}
-
-                            ${subjectHTML}
-
-                        </div>
-
-                    </article>
+                    <div class="no-questions">
+                        Bu gün soru kaydı yok.
+                    </div>
 
                 `;
 
             }
-        );
-
-    }
 
 
-    /* =====================================
-       GÜN AÇ / KAPAT
-    ===================================== */
+            container.innerHTML += `
+
+                <article class="day-card">
+
+                    <div
+                        class="day-header"
+                        onclick="toggleDay(this)"
+                    >
+
+                        <div class="day-date">
+                            ${formattedDate}
+                        </div>
+
+                        <div class="day-total">
+
+                            <span class="day-total-number">
+                                ${total}
+                            </span>
+
+                            <span class="day-total-label">
+                                SORU
+                            </span>
+
+                        </div>
+
+                    </div>
 
 
-    function toggleDay(header) {
+                    <div class="day-content">
 
-        const content =
-            header.nextElementSibling;
+                        ${noteHTML}
 
+                        ${subjectHTML}
 
-        if (
-            content.style.display ===
-            "none"
-        ) {
+                    </div>
 
-            content.style.display =
-                "block";
+                </article>
 
-        } else {
-
-            content.style.display =
-                "none";
+            `;
 
         }
+    );
+
+}
+
+
+/* =====================================
+   GÜN AÇ / KAPAT
+===================================== */
+
+
+function toggleDay(header) {
+
+    const content =
+        header.nextElementSibling;
+
+
+    if (
+        content.style.display ===
+        "none"
+    ) {
+
+        content.style.display =
+            "block";
+
+    } else {
+
+        content.style.display =
+            "none";
 
     }
 
-
-    /* =====================================
-       GENEL İSTATİSTİKLER
-    ===================================== */
+}
 
 
-    function updateStats() {
+/* =====================================
+   GENEL İSTATİSTİKLER
+===================================== */
 
 
-        const total =
-            questionEntries.reduce(
+function updateStats() {
+
+    const total =
+        questionEntries.reduce(
+            (
+                sum,
+                entry
+            ) =>
+                sum +
+                entry.count,
+            0
+        );
+
+
+    const tyt =
+        questionEntries
+            .filter(
+                entry =>
+                    entry.type === "TYT"
+            )
+            .reduce(
                 (
                     sum,
                     entry
@@ -2679,325 +2764,335 @@
             );
 
 
-        const tyt =
-            questionEntries
-                .filter(
-                    entry =>
-                        entry.type === "TYT"
-                )
-                .reduce(
-                    (
-                        sum,
-                        entry
-                    ) =>
-                        sum +
-                        entry.count,
-                    0
-                );
+    const ayt =
+        questionEntries
+            .filter(
+                entry =>
+                    entry.type === "AYT"
+            )
+            .reduce(
+                (
+                    sum,
+                    entry
+                ) =>
+                    sum +
+                    entry.count,
+                0
+            );
 
 
-        const ayt =
-            questionEntries
-                .filter(
-                    entry =>
-                        entry.type === "AYT"
-                )
-                .reduce(
-                    (
-                        sum,
-                        entry
-                    ) =>
-                        sum +
-                        entry.count,
-                    0
-                );
+    document.getElementById(
+        "totalQuestions"
+    ).textContent =
+        total;
 
 
-        document.getElementById(
-            "totalQuestions"
-        ).textContent =
-            total;
+    document.getElementById(
+        "tytQuestions"
+    ).textContent =
+        tyt;
 
 
-        document.getElementById(
-            "tytQuestions"
-        ).textContent =
-            tyt;
+    document.getElementById(
+        "aytQuestions"
+    ).textContent =
+        ayt;
 
 
-        document.getElementById(
-            "aytQuestions"
-        ).textContent =
-            ayt;
+    const dailyTotals = {};
 
 
-        const dailyTotals = {};
+    questionEntries.forEach(
+        entry => {
 
-
-        questionEntries.forEach(
-            entry => {
-
-                if (
-                    !dailyTotals[
-                        entry.date
-                    ]
-                ) {
-
-                    dailyTotals[
-                        entry.date
-                    ] = 0;
-
-                }
-
+            if (
+                !dailyTotals[
+                    entry.date
+                ]
+            ) {
 
                 dailyTotals[
                     entry.date
-                ] += entry.count;
+                ] = 0;
 
             }
+
+
+            dailyTotals[
+                entry.date
+            ] += entry.count;
+
+        }
+    );
+
+
+    const dailyValues =
+        Object.entries(
+            dailyTotals
         );
 
 
-        const dailyValues =
-            Object.entries(
-                dailyTotals
-            );
-
-
-        if (
-            dailyValues.length === 0
-        ) {
-
-            document.getElementById(
-                "bestDay"
-            ).textContent =
-                "—";
-
-            return;
-
-        }
-
-
-        const best =
-            dailyValues.reduce(
-                (
-                    best,
-                    current
-                ) =>
-                    current[1] >
-                    best[1]
-                        ? current
-                        : best
-            );
-
+    if (
+        dailyValues.length === 0
+    ) {
 
         document.getElementById(
             "bestDay"
         ).textContent =
-            best[1];
+            "—";
 
+        return;
     }
 
 
-    /* =====================================
-       DERS İSTATİSTİKLERİ
-    ===================================== */
-
-
-    function renderSubjectStats() {
-
-
-        const container =
-            document.getElementById(
-                "subjectStats"
-            );
-
-
-        const subjects = [
-
-            "Matematik",
-
-            "Türkçe",
-
-            "Fizik",
-
-            "Kimya",
-
-            "Biyoloji",
-
-            "Tarih",
-
-            "Coğrafya",
-
-            "Felsefe",
-
-            "Din Kültürü"
-
-        ];
-
-
-        container.innerHTML = "";
-
-
-        subjects.forEach(
-            subject => {
-
-
-                const total =
-                    questionEntries
-                        .filter(
-                            entry =>
-                                entry.subject ===
-                                subject
-                        )
-                        .reduce(
-                            (
-                                sum,
-                                entry
-                            ) =>
-                                sum +
-                                entry.count,
-                            0
-                        );
-
-
-                container.innerHTML += `
-
-                    <div class="subject-stat">
-
-                        <div class="subject-stat-name">
-                            ${subject}
-                        </div>
-
-                        <div class="subject-stat-number">
-                            ${total}
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
+    const best =
+        dailyValues.reduce(
+            (
+                best,
+                current
+            ) =>
+                current[1] >
+                best[1]
+                    ? current
+                    : best
         );
 
-    }
+
+    document.getElementById(
+        "bestDay"
+    ).textContent =
+        best[1];
+
+}
 
 
-    /* =====================================
-       GÜNLÜK HEDEF
-    ===================================== */
+/* =====================================
+   DERS İSTATİSTİKLERİ
+===================================== */
 
 
-    function updateGoal() {
+function renderSubjectStats() {
 
-
-        const today =
-            new Date()
-                .toISOString()
-                .split("T")[0];
-
-
-        const todayTotal =
-            questionEntries
-                .filter(
-                    entry =>
-                        entry.date === today
-                )
-                .reduce(
-                    (
-                        sum,
-                        entry
-                    ) =>
-                        sum +
-                        entry.count,
-                    0
-                );
-
-
-        const percent =
-            Math.min(
-                100,
-
-                Math.round(
-                    (
-                        todayTotal /
-                        DAILY_GOAL
-                    ) *
-                    100
-                )
-            );
-
-
+    const container =
         document.getElementById(
-            "goalText"
-        ).textContent =
-            todayTotal +
-            " / " +
-            DAILY_GOAL;
+            "subjectStats"
+        );
 
 
-        document.getElementById(
-            "progressBar"
-        ).style.width =
-            percent +
-            "%";
+    const subjects = [
 
-    }
+        "Matematik",
 
+        "Türkçe",
 
-    /* =====================================
-       HER ŞEYİ YENİLE
-    ===================================== */
+        "Fizik",
 
+        "Kimya",
 
-    function renderAll() {
+        "Biyoloji",
 
-        renderDays();
+        "Tarih",
 
-        updateStats();
+        "Coğrafya",
 
-        renderSubjectStats();
+        "Felsefe",
 
-        updateGoal();
+        "Din Kültürü"
 
-    }
+    ];
 
 
-    /* =====================================
-       OTURUM KONTROL
-    ===================================== */
+    container.innerHTML = "";
 
 
-    async function checkSession() {
+    subjects.forEach(
+        subject => {
 
 
-        const {
-            data: {
-                session
-            }
-        } =
-            await supabaseClient.auth
-                .getSession();
+            const total =
+                questionEntries
+                    .filter(
+                        entry =>
+                            entry.subject ===
+                            subject
+                    )
+                    .reduce(
+                        (
+                            sum,
+                            entry
+                        ) =>
+                            sum +
+                            entry.count,
+                        0
+                    );
 
 
-        if (session) {
+            container.innerHTML += `
 
-            showApp(
-                session.user
-            );
+                <div class="subject-stat">
 
-            await loadQuestions();
+                    <div class="subject-stat-name">
+                        ${subject}
+                    </div>
+
+                    <div class="subject-stat-number">
+                        ${total}
+                    </div>
+
+                </div>
+
+            `;
 
         }
+    );
 
+}
+
+
+/* =====================================
+   GÜNLÜK HEDEF
+===================================== */
+
+
+function updateGoal() {
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    const todayTotal =
+        questionEntries
+            .filter(
+                entry =>
+                    entry.date === today
+            )
+            .reduce(
+                (
+                    sum,
+                    entry
+                ) =>
+                    sum +
+                    entry.count,
+                0
+            );
+
+
+    const percent =
+        Math.min(
+            100,
+
+            Math.round(
+                (
+                    todayTotal /
+                    DAILY_GOAL
+                ) *
+                100
+            )
+        );
+
+
+    document.getElementById(
+        "goalText"
+    ).textContent =
+        todayTotal +
+        " / " +
+        DAILY_GOAL;
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        percent +
+        "%";
+
+}
+
+
+/* =====================================
+   HER ŞEYİ YENİLE
+===================================== */
+
+
+function renderAll() {
+
+    renderDays();
+
+    updateStats();
+
+    renderSubjectStats();
+
+    updateGoal();
+
+}
+
+
+/* =====================================
+   OTURUM KONTROL
+===================================== */
+
+async function checkSession() {
+
+    const {
+        data: {
+            session
+        }
+    } =
+        await supabaseClient.auth
+            .getSession();
+
+
+    if (!session) {
+
+        return;
     }
 
 
-    checkSession();
+    /*
+       Kullanıcının rolünü kontrol ediyoruz.
+    */
+
+    const role =
+        await getUserRole(
+            session.user.id
+        );
+
+
+    if (role === "teacher") {
+
+        /*
+           Öğretmen soru sayfasına giremez.
+           Direkt öğretmen paneline gönderilir.
+        */
+
+        window.location.replace(
+            "goruntule.html"
+        );
+
+        return;
+    }
+
+
+    /*
+       Öğrenci ise normal soru günlüğünü aç.
+    */
+
+    showApp(
+        session.user
+    );
+
+    await loadQuestions();
+
+}
+
+
+checkSession();
 
 
 </script>
 
 
 </body>
+
 </html>
